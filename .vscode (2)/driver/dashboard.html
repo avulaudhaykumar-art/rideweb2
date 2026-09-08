@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Driver Dashboard | Smart Ride Sharing</title>
+
+<link rel="stylesheet" href="../assets/css/driver.css">
+
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<!-- Leaflet Map -->
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Poppins",sans-serif;
+}
+
+.map-container{
+    width:100%;
+    margin-top:20px;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+#driverMap{
+    width:100%;
+    height:430px;
+    min-height:350px;
+    background:#e5e5e5;
+}
+
+.map-info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-top:18px;
+}
+
+.map-info p{
+    margin:0;
+    padding:15px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.map-info span{
+    font-weight:600;
+}
+
+.map-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:18px;
+}
+
+.map-buttons button{
+    cursor:pointer;
+}
+
+.status-online{
+    color:#16a34a;
+    font-weight:700;
+}
+
+.status-offline{
+    color:#dc2626;
+    font-weight:700;
+}
+
+.empty-message{
+    padding:20px;
+    background:#f8f8f8;
+    border-radius:12px;
+    text-align:center;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================================================= -->
+<!-- HEADER -->
+<!-- ================================================= -->
+
+<header>
+
+<div class="logo">
+
+<h2>🚖 RideShare Driver</h2>
+
+</div>
+
+
+<div class="driver-profile">
+
+<img
+src="https://randomuser.me/api/portraits/men/11.jpg"
+alt="Driver">
+
+<div>
+
+<h3>Rahul Sharma</h3>
+
+<p>⭐ 4.8 Rating</p>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- ================================================= -->
+<!-- DRIVER STATUS -->
+<!-- ================================================= -->
+
+<section class="status">
+
+<h2>Driver Status</h2>
+
+<div class="status-card">
+
+<i class="fas fa-toggle-on"></i>
+
+<h3 id="driverStatusText">
+Online
+</h3>
+
+<p id="driverStatusDescription">
+You are available for rides
+</p>
+
+<button id="toggleStatus">
+Go Offline
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- QUICK STATS -->
+<!-- ================================================= -->
+
+<section class="cards">
+
+<div class="card">
+
+<i class="fas fa-car"></i>
+
+<h2 id="completedRides">
+24
+</h2>
+
+<p>Completed Rides</p>
+
+</div>
+
+
+<div class="card">
+
+<i class="fas fa-wallet"></i>
+
+<h2 id="todayEarnings">
+₹2450
+</h2>
+
+<p>Today's Earnings</p>
+
+</div>
+
+
+<div class="card">
+
+<i class="fas fa-road"></i>
+
+<h2 id="distanceTravelled">
+86 km
+</h2>
+
+<p>Distance Travelled</p>
+
+</div>
+
+
+<div class="card">
+
+<i class="fas fa-star"></i>
+
+<h2>4.8</h2>
+
+<p>Driver Rating</p>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- RIDE REQUESTS -->
+<!-- ================================================= -->
+
+<section class="requests">
+
+<h2>Incoming Ride Requests 🚗</h2>
+
+
+<div class="request-card">
+
+<div>
+
+<h3 id="requestRider">
+Waiting for rider...
+</h3>
+
+<p>
+📍 Pickup:
+<span id="requestPickup">--</span>
+</p>
+
+<p>
+🎯 Destination:
+<span id="requestDestination">--</span>
+</p>
+
+<p>
+🚗 Vehicle:
+<span id="requestVehicle">--</span>
+</p>
+
+<p>
+💰 Fare:
+₹<span id="requestFare">--</span>
+</p>
+
+</div>
+
+
+<div>
+
+<button id="acceptRide">
+Accept Ride
+</button>
+
+<button id="rejectRide">
+Reject
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- LIVE NAVIGATION -->
+<!-- ================================================= -->
+
+<section class="navigation">
+
+<h2>
+🗺️ Live Driver Navigation
+</h2>
+
+
+<div class="map-container">
+
+<div id="driverMap"></div>
+
+</div>
+
+
+<div class="map-info">
+
+<p>
+<b>Pickup:</b><br>
+<span id="mapPickup">Waiting...</span>
+</p>
+
+
+<p>
+<b>Destination:</b><br>
+<span id="mapDestination">Waiting...</span>
+</p>
+
+
+<p>
+<b>Distance:</b><br>
+<span id="mapDistance">-- km</span>
+</p>
+
+
+<p>
+<b>Driver:</b><br>
+<span id="mapDriver">Rahul Sharma</span>
+</p>
+
+
+<p>
+<b>Status:</b><br>
+<span id="mapStatus">Waiting for ride</span>
+</p>
+
+</div>
+
+
+<div class="map-buttons">
+
+<button id="centerMap">
+📍 Center Map
+</button>
+
+<button id="routeButton">
+🛣️ Show Route
+</button>
+
+<button id="clearMap">
+🗑️ Clear Map
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- CURRENT TRIP -->
+<!-- ================================================= -->
+
+<section class="trip">
+
+<h2>Current Ride Details</h2>
+
+
+<div class="trip-box">
+
+<p>
+
+<b>Rider Name:</b>
+
+<span id="currentRider">
+No active ride
+</span>
+
+</p>
+
+
+<p>
+
+<b>Pickup Location:</b>
+
+<span id="currentPickup">
+--
+</span>
+
+</p>
+
+
+<p>
+
+<b>Destination:</b>
+
+<span id="currentDestination">
+--
+</span>
+
+</p>
+
+
+<p>
+
+<b>Distance:</b>
+
+<span id="currentDistance">
+--
+</span>
+
+</p>
+
+
+<p>
+
+<b>Estimated Time:</b>
+
+<span id="currentEta">
+--
+</span>
+
+</p>
+
+
+<p>
+
+<b>Status:</b>
+
+<span id="currentStatus">
+No active ride
+</span>
+
+</p>
+
+
+<button id="startRide">
+🚖 Start Ride
+</button>
+
+
+<button id="completeRide">
+✅ Complete Ride
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- FUEL MONITORING -->
+<!-- ================================================= -->
+
+<section class="fuel">
+
+<h2>
+Vehicle Fuel Range ⛽
+</h2>
+
+
+<div class="fuel-box">
+
+<i class="fas fa-gas-pump"></i>
+
+<h1 id="fuelPercentage">
+75%
+</h1>
+
+<p>
+Estimated Range:
+<span id="fuelRange">
+280
+</span>
+km
+</p>
+
+
+<div class="fuel-bar">
+
+<div
+class="fuel-level"
+id="fuelLevel"
+style="width:75%;">
+</div>
+
+</div>
+
+
+<button id="fuelButton">
+Check Fuel Status
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- EARNINGS HISTORY -->
+<!-- ================================================= -->
+
+<section class="earnings">
+
+<h2>
+Earnings History 💰
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Trips</th>
+
+<th>Amount</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="earningsTable">
+
+<tr>
+
+<td>
+22 July 2026
+</td>
+
+<td>
+12
+</td>
+
+<td>
+₹2450
+</td>
+
+<td>
+Completed
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+21 July 2026
+</td>
+
+<td>
+9
+</td>
+
+<td>
+₹1800
+</td>
+
+<td>
+Completed
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- DRIVER SUPPORT -->
+<!-- ================================================= -->
+
+<section class="support">
+
+<h2>
+Driver Support
+</h2>
+
+
+<div class="support-buttons">
+
+<button id="supportButton">
+📞 Contact Support
+</button>
+
+
+<button id="documentsButton">
+📄 Documents
+</button>
+
+
+<button id="settingsButton">
+⚙ Settings
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- EMERGENCY CONTROLS -->
+<!-- ================================================= -->
+
+<section class="emergency">
+
+<h2>
+Emergency Controls 🚨
+</h2>
+
+
+<div>
+
+<button id="sosButton">
+🚨 SOS Alert
+</button>
+
+
+<button id="shareLocationButton">
+📍 Share Location
+</button>
+
+
+<button id="stopRideButton">
+🛑 Stop Ride
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- DRIVER REVIEWS -->
+<!-- ================================================= -->
+
+<section class="reviews">
+
+<h2>
+Passenger Reviews ⭐
+</h2>
+
+
+<div class="review-card">
+
+<h3>
+Karthik
+</h3>
+
+<p>
+⭐⭐⭐⭐⭐
+</p>
+
+<p>
+Excellent driving and safe ride.
+</p>
+
+</div>
+
+
+<div class="review-card">
+
+<h3>
+Arjun
+</h3>
+
+<p>
+⭐⭐⭐⭐
+</p>
+
+<p>
+Good experience with the driver.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- NOTIFICATIONS -->
+<!-- ================================================= -->
+
+<section class="notifications">
+
+<h2>
+Driver Notifications 🔔
+</h2>
+
+
+<div class="notification">
+🚗 New ride request received
+</div>
+
+
+<div class="notification">
+💰 Payment settlement completed
+</div>
+
+
+<div class="notification">
+⚠ Vehicle service reminder
+</div>
+
+
+<div class="notification">
+⭐ New passenger rating received
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- DRIVER PROFILE -->
+<!-- ================================================= -->
+
+<section class="profile-section">
+
+<h2>
+Driver Profile
+</h2>
+
+
+<div class="profile-card">
+
+<img
+src="https://randomuser.me/api/portraits/men/11.jpg"
+alt="Rahul Sharma">
+
+
+<div>
+
+<h3>
+Rahul Sharma
+</h3>
+
+
+<p>
+Vehicle: Swift Dzire
+</p>
+
+
+<p>
+Vehicle Number: TS09AB1234
+</p>
+
+
+<p>
+Experience: 5 Years
+</p>
+
+
+<p>
+License Status: Verified ✅
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================================================= -->
+<!-- FOOTER -->
+<!-- ================================================= -->
+
+<footer>
+
+<hr>
+
+<h3>
+🚖 Smart Ride Sharing System
+</h3>
+
+<p>
+Driver Partner Portal
+</p>
+
+<p>
+Developed by <b>Avula Udhay Kumar</b>
+</p>
+
+</footer>
+
+
+
+<!-- ================================================= -->
+<!-- LEAFLET -->
+<!-- ================================================= -->
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<!-- ================================================= -->
+<!-- DRIVER JAVASCRIPT -->
+<!-- ================================================= -->
+
+<script src="../assets/js/driver.js"></script>
+
+
+</body>
+
+</html>

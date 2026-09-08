@@ -1,0 +1,1091 @@
+/* ==========================
+   GLOBAL SETTINGS
+========================== */
+
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+font-family:'Poppins',sans-serif;
+
+}
+
+
+
+body{
+
+background:#f8fafc;
+
+color:#1e293b;
+
+}
+
+
+
+/* ==========================
+   HEADER
+========================== */
+
+
+header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:white;
+
+padding:20px 40px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+position:sticky;
+
+top:0;
+
+z-index:100;
+
+}
+
+
+
+.logo h2{
+
+color:#2563eb;
+
+font-size:28px;
+
+}
+
+
+
+.driver-profile{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+
+
+.driver-profile img{
+
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+}
+
+
+
+/* ==========================
+   COMMON SECTIONS
+========================== */
+
+
+section{
+
+padding:40px;
+
+}
+
+
+
+section h2{
+
+text-align:center;
+
+font-size:30px;
+
+margin-bottom:30px;
+
+}
+
+
+
+/* ==========================
+   STATUS SECTION
+========================== */
+
+
+.status{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.status-card{
+
+text-align:center;
+
+padding:30px;
+
+}
+
+
+
+.status-card i{
+
+font-size:50px;
+
+color:#10b981;
+
+}
+
+
+
+.status-card button{
+
+padding:14px 35px;
+
+border:none;
+
+background:#ef4444;
+
+color:white;
+
+border-radius:25px;
+
+cursor:pointer;
+
+font-size:16px;
+
+margin-top:15px;
+
+}
+
+
+
+.status-card button:hover{
+
+transform:scale(1.05);
+
+}
+
+
+
+/* ==========================
+   DASHBOARD CARDS
+========================== */
+
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(4,1fr);
+
+gap:25px;
+
+margin:30px;
+
+}
+
+
+
+.card{
+
+background:white;
+
+padding:30px;
+
+text-align:center;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+transition:.3s;
+
+}
+
+
+
+.card:hover{
+
+transform:translateY(-8px);
+
+}
+
+
+
+.card i{
+
+font-size:40px;
+
+color:#2563eb;
+
+margin-bottom:15px;
+
+}
+
+
+
+.card h2{
+
+font-size:32px;
+
+}
+
+
+
+
+
+/* ==========================
+   RIDE REQUESTS
+========================== */
+
+
+.requests{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.request-card{
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:25px;
+
+margin:20px;
+
+background:#f8fafc;
+
+border-radius:15px;
+
+}
+
+
+
+.request-card button{
+
+padding:12px 25px;
+
+border:none;
+
+border-radius:20px;
+
+background:#2563eb;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+
+.request-card button:last-child{
+
+background:#ef4444;
+
+}
+
+
+
+.request-card button:hover{
+
+transform:scale(1.05);
+
+}
+/* ==========================
+   LIVE NAVIGATION
+========================== */
+
+
+.navigation{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.map{
+
+height:350px;
+
+background:
+
+linear-gradient(
+
+45deg,
+
+#dbeafe,
+
+#bfdbfe
+
+);
+
+border-radius:20px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+}
+
+
+
+.vehicle{
+
+font-size:55px;
+
+animation:moveVehicle 3s infinite alternate;
+
+}
+
+
+
+@keyframes moveVehicle{
+
+
+from{
+
+transform:translateX(-120px);
+
+}
+
+
+to{
+
+transform:translateX(120px);
+
+}
+
+
+}
+
+
+
+/* ==========================
+   CURRENT TRIP
+========================== */
+
+
+.trip{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.trip-box{
+
+padding:30px;
+
+background:#f8fafc;
+
+border-radius:15px;
+
+}
+
+
+
+.trip-box p{
+
+padding:12px;
+
+font-size:17px;
+
+}
+
+
+
+.trip-box button{
+
+padding:14px 30px;
+
+margin:10px;
+
+border:none;
+
+border-radius:25px;
+
+background:#10b981;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+
+.trip-box button:last-child{
+
+background:#2563eb;
+
+}
+
+
+
+/* ==========================
+   FUEL MONITORING
+========================== */
+
+
+.fuel{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+}
+
+
+
+.fuel-box{
+
+padding:30px;
+
+}
+
+
+
+.fuel-box i{
+
+font-size:45px;
+
+color:#f59e0b;
+
+}
+
+
+
+.fuel-box h1{
+
+font-size:45px;
+
+color:#10b981;
+
+}
+
+
+
+.fuel-bar{
+
+width:80%;
+
+height:25px;
+
+background:#e5e7eb;
+
+margin:25px auto;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+
+
+.fuel-level{
+
+height:100%;
+
+width:75%;
+
+background:#10b981;
+
+border-radius:20px;
+
+}
+
+
+
+.fuel-box button{
+
+padding:12px 30px;
+
+border:none;
+
+background:#2563eb;
+
+color:white;
+
+border-radius:25px;
+
+cursor:pointer;
+
+}
+
+
+
+/* ==========================
+   EARNINGS TABLE
+========================== */
+
+
+.earnings{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+overflow:auto;
+
+}
+
+
+
+.earnings table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+
+
+.earnings th{
+
+background:#2563eb;
+
+color:white;
+
+padding:15px;
+
+}
+
+
+
+.earnings td{
+
+padding:15px;
+
+border-bottom:1px solid #ddd;
+
+}
+
+
+
+/* ==========================
+   SUPPORT SECTION
+========================== */
+
+
+.support{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+}
+
+
+
+.support-buttons button{
+
+padding:15px 25px;
+
+margin:10px;
+
+border:none;
+
+background:#2563eb;
+
+color:white;
+
+border-radius:20px;
+
+cursor:pointer;
+
+}
+
+
+
+.support-buttons button:hover{
+
+transform:scale(1.05);
+
+}
+
+
+
+/* ==========================
+   EMERGENCY
+========================== */
+
+
+.emergency{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+}
+
+
+
+.emergency button{
+
+padding:15px 30px;
+
+margin:10px;
+
+border:none;
+
+border-radius:25px;
+
+cursor:pointer;
+
+background:#ef4444;
+
+color:white;
+
+}
+/* ==========================
+   REVIEWS SECTION
+========================== */
+
+
+.reviews{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.review-card{
+
+background:#f8fafc;
+
+padding:20px;
+
+margin:20px;
+
+border-radius:15px;
+
+}
+
+
+
+.review-card h3{
+
+color:#2563eb;
+
+margin-bottom:10px;
+
+}
+
+
+
+.review-card p{
+
+margin:8px 0;
+
+}
+
+
+
+
+
+/* ==========================
+   NOTIFICATIONS
+========================== */
+
+
+.notifications{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.notification{
+
+padding:18px;
+
+margin:15px;
+
+background:#eff6ff;
+
+border-left:5px solid #2563eb;
+
+border-radius:12px;
+
+transition:0.3s;
+
+}
+
+
+
+.notification:hover{
+
+transform:translateX(10px);
+
+background:#dbeafe;
+
+}
+
+
+
+
+
+/* ==========================
+   PROFILE SECTION
+========================== */
+
+
+.profile-section{
+
+background:white;
+
+margin:30px;
+
+border-radius:20px;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+
+.profile-card{
+
+display:flex;
+
+align-items:center;
+
+gap:30px;
+
+padding:30px;
+
+}
+
+
+
+.profile-card img{
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+}
+
+
+
+.profile-card h3{
+
+font-size:25px;
+
+color:#2563eb;
+
+}
+
+
+
+.profile-card p{
+
+margin:10px 0;
+
+}
+
+
+
+
+
+/* ==========================
+   FOOTER
+========================== */
+
+
+footer{
+
+background:#111827;
+
+color:white;
+
+text-align:center;
+
+padding:30px;
+
+margin-top:40px;
+
+}
+
+
+
+footer hr{
+
+border:none;
+
+height:1px;
+
+background:#475569;
+
+margin-bottom:20px;
+
+}
+
+
+
+footer p{
+
+color:#cbd5e1;
+
+margin-top:8px;
+
+}
+
+
+
+
+
+/* ==========================
+   RESPONSIVE DESIGN
+========================== */
+
+
+@media(max-width:1000px){
+
+
+.cards{
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+}
+
+
+
+.request-card{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+
+}
+
+
+
+
+
+@media(max-width:700px){
+
+
+header{
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+
+
+.cards{
+
+grid-template-columns:
+
+1fr;
+
+}
+
+
+
+section{
+
+padding:20px;
+
+}
+
+
+
+.driver-profile img{
+
+width:50px;
+
+height:50px;
+
+}
+
+
+
+.profile-card{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+
+
+.map{
+
+height:250px;
+
+}
+
+
+
+.support-buttons button{
+
+width:80%;
+
+}
+
+
+
+}
+
+
+
+
+
+/* ==========================
+   ANIMATION EFFECTS
+========================== */
+
+
+.card,
+.request-card,
+.review-card{
+
+animation:
+
+fadeIn 0.6s ease;
+
+}
+
+
+
+@keyframes fadeIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
+
+
+/* ==========================
+   END DRIVER CSS
+========================== */

@@ -1,0 +1,1006 @@
+/* =========================================================
+   SMART RIDESHARE - RIDER DASHBOARD CSS
+   Matched with pages/rider.html
+========================================================= */
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #f5f7fb;
+    color: #1e293b;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    width: 100%;
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px 40px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-bottom: 1px solid #e2e8f0;
+
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+}
+
+.logo h2 {
+    color: #2563eb;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.driver-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.driver-profile img {
+    width: 48px;
+    height: 48px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 3px solid #dbeafe;
+}
+
+.driver-profile h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.driver-profile p {
+    font-size: 12px;
+    color: #64748b;
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+section {
+    width: min(1200px, 94%);
+    margin: 25px auto;
+    padding: 30px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 6px 25px rgba(15, 23, 42, 0.07);
+
+    border: 1px solid #eef2f7;
+}
+
+section > h2 {
+    margin-bottom: 25px;
+
+    color: #0f172a;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* =========================================================
+   QUICK STAT CARDS
+========================================================= */
+
+.cards {
+    width: min(1200px, 94%);
+    margin: 25px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    border: none;
+
+    padding: 0;
+}
+
+.cards .card {
+    background: #ffffff;
+
+    padding: 25px 20px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    border: 1px solid #e8edf5;
+
+    box-shadow:
+        0 6px 20px rgba(15, 23, 42, 0.06);
+
+    transition: 0.3s ease;
+}
+
+.cards .card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+.card i {
+    font-size: 28px;
+
+    color: #2563eb;
+
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    color: #0f172a;
+
+    font-size: 25px;
+
+    margin-bottom: 5px;
+}
+
+.card p {
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   BOOK A RIDE
+========================================================= */
+
+.trip-box {
+    width: 100%;
+
+    padding: 25px;
+
+    background: #f8fafc;
+
+    border-radius: 16px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.trip-box p {
+    margin-top: 15px;
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    color: #334155;
+
+    font-weight: 600;
+}
+
+.trip-box p:first-child {
+    margin-top: 0;
+}
+
+.trip-box input,
+.trip-box select {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-size: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+    transition: 0.25s;
+}
+
+.trip-box input:focus,
+.trip-box select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    border: none;
+
+    font-family: "Poppins", sans-serif;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* BOOK RIDE BUTTON */
+
+#bookRide {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 14px 20px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 6px 15px rgba(37, 99, 235, 0.22);
+}
+
+#bookRide:hover {
+    background: #1d4ed8;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.30);
+}
+
+
+/* =========================================================
+   CURRENT RIDE
+========================================================= */
+
+#currentDriver,
+#currentVehicle,
+#currentVehicleNumber,
+#currentETA,
+#currentStatus {
+    color: #2563eb;
+
+    font-weight: 600;
+}
+
+#currentStatus {
+    color: #059669;
+}
+
+
+/* TRACK RIDE BUTTON */
+
+#trackRide {
+    margin-top: 20px;
+
+    padding: 12px 22px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+#trackRide:hover {
+    background: #1d4ed8;
+}
+
+
+/* CANCEL BUTTON */
+
+#cancelRide {
+    margin-top: 20px;
+
+    margin-left: 10px;
+
+    padding: 12px 22px;
+
+    background: #ef4444;
+
+    color: white;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+#cancelRide:hover {
+    background: #dc2626;
+}
+
+
+/* =========================================================
+   LIVE RIDE MAP
+========================================================= */
+
+.ride-map-section {
+    padding: 25px;
+}
+
+.ride-map-section > h2 {
+    margin-bottom: 20px;
+}
+
+
+/* MAP CONTAINER */
+
+.map-container {
+    width: 100%;
+
+    height: 500px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: #e2e8f0;
+
+    border: 1px solid #cbd5e1;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.10);
+}
+
+
+/* ACTUAL LEAFLET MAP */
+
+#riderMap {
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 500px;
+
+    z-index: 1;
+}
+
+
+/* Leaflet controls */
+
+.leaflet-control-zoom {
+    border: none !important;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.15) !important;
+}
+
+.leaflet-control-zoom a {
+    color: #1e293b !important;
+
+    background: #ffffff !important;
+}
+
+
+/* =========================================================
+   MAP INFORMATION
+========================================================= */
+
+.map-info {
+    margin-top: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+    border-radius: 15px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.map-info p {
+    margin: 0;
+
+    padding: 13px 15px;
+
+    background: #ffffff;
+
+    border-radius: 10px;
+
+    border: 1px solid #e5e7eb;
+
+    font-size: 14px;
+
+    color: #475569;
+}
+
+.map-info p:last-child {
+    grid-column: 1 / -1;
+}
+
+.map-info b {
+    display: inline-block;
+
+    min-width: 105px;
+
+    color: #0f172a;
+}
+
+.map-info span {
+    color: #2563eb;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LEAFLET POPUP
+========================================================= */
+
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+}
+
+.leaflet-popup-content {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FARE CARDS
+========================================================= */
+
+section .cards {
+    width: 100%;
+    margin: 0;
+}
+
+section .cards .card i {
+    color: #10b981;
+}
+
+
+/* =========================================================
+   SPECIAL OFFERS
+========================================================= */
+
+.review-card {
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eff6ff,
+            #f8fafc
+        );
+
+    border-radius: 15px;
+
+    border: 1px solid #dbeafe;
+
+    transition: 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateX(5px);
+
+    border-color: #93c5fd;
+}
+
+.review-card h3 {
+    color: #1d4ed8;
+
+    font-size: 17px;
+
+    margin-bottom: 5px;
+}
+
+.review-card p {
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RIDE HISTORY
+========================================================= */
+
+.earnings {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 12px;
+
+    border: 1px solid #e2e8f0;
+}
+
+.earnings table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 650px;
+}
+
+.earnings th {
+    padding: 15px;
+
+    background: #2563eb;
+
+    color: white;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.earnings td {
+    padding: 14px 15px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    font-size: 13px;
+
+    color: #475569;
+}
+
+.earnings tbody tr:hover {
+    background: #f8fafc;
+}
+
+.earnings tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   FAVOURITE DRIVERS
+========================================================= */
+
+section > .cards .card {
+    cursor: pointer;
+}
+
+section > .cards .card .fa-user {
+    color: #7c3aed;
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+.notifications {
+    background: #ffffff;
+}
+
+.notification {
+    padding: 15px 18px;
+
+    margin-bottom: 12px;
+
+    background: #eff6ff;
+
+    border-left: 4px solid #2563eb;
+
+    border-radius: 10px;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.notification:hover {
+    background: #dbeafe;
+
+    transform: translateX(4px);
+}
+
+.notification:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    padding: 25px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 18px;
+}
+
+.profile-card img {
+    width: 110px;
+
+    height: 110px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 4px solid #dbeafe;
+
+    box-shadow:
+        0 5px 15px rgba(15, 23, 42, 0.10);
+}
+
+.profile-card h3 {
+    color: #0f172a;
+
+    font-size: 21px;
+
+    margin-bottom: 8px;
+}
+
+.profile-card p {
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin: 4px 0;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    margin-top: 40px;
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    background: #0f172a;
+
+    color: white;
+}
+
+footer hr {
+    border: none;
+
+    border-top: 1px solid #334155;
+
+    margin-bottom: 25px;
+}
+
+footer h3 {
+    font-size: 20px;
+
+    margin-bottom: 8px;
+}
+
+footer p {
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   MAP LOADING / VISUAL POLISH
+========================================================= */
+
+.ride-map-section {
+    position: relative;
+}
+
+.map-container::after {
+    content: "";
+
+    position: absolute;
+
+    top: 12px;
+
+    left: 12px;
+
+    width: 8px;
+
+    height: 8px;
+
+    background: #22c55e;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 5px rgba(34, 197, 94, 0.18);
+
+    z-index: 500;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .map-container,
+    #riderMap {
+        height: 430px;
+
+        min-height: 430px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    header {
+        padding: 13px 18px;
+    }
+
+    .logo h2 {
+        font-size: 19px;
+    }
+
+    .driver-profile img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .driver-profile h3 {
+        font-size: 13px;
+    }
+
+    .driver-profile p {
+        font-size: 10px;
+    }
+
+
+    section {
+        width: 94%;
+
+        padding: 20px;
+
+        margin: 18px auto;
+
+        border-radius: 15px;
+    }
+
+    section > h2 {
+        font-size: 20px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .cards {
+        width: 94%;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 12px;
+    }
+
+    .cards .card {
+        padding: 18px 10px;
+
+        border-radius: 14px;
+    }
+
+    .card i {
+        font-size: 22px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+    }
+
+    .card p {
+        font-size: 11px;
+    }
+
+
+    .trip-box {
+        padding: 18px;
+    }
+
+
+    .map-container {
+        height: 380px;
+
+        border-radius: 14px;
+    }
+
+    #riderMap {
+        height: 380px;
+
+        min-height: 380px;
+    }
+
+
+    .map-info {
+        grid-template-columns: 1fr;
+
+        padding: 12px;
+    }
+
+    .map-info p:last-child {
+        grid-column: auto;
+    }
+
+    .map-info b {
+        display: block;
+
+        margin-bottom: 4px;
+    }
+
+
+    #trackRide,
+    #cancelRide {
+        width: 100%;
+
+        margin-left: 0;
+
+        margin-top: 10px;
+    }
+
+
+    .profile-card {
+        flex-direction: column;
+
+        text-align: center;
+
+        padding: 20px;
+    }
+
+    .profile-card img {
+        width: 95px;
+
+        height: 95px;
+    }
+
+
+    .earnings {
+        overflow-x: auto;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .logo h2 {
+        font-size: 17px;
+    }
+
+    .driver-profile div {
+        display: none;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .map-container,
+    #riderMap {
+        height: 330px;
+
+        min-height: 330px;
+    }
+
+    .map-info p {
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   END RIDER DASHBOARD CSS
+========================================================= */

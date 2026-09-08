@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RideShare Rider</title>
+
+<link rel="stylesheet" href="../assets/css/rider.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+
+<div class="logo">
+
+<h2>🚖 RideShare</h2>
+
+</div>
+
+
+<div class="profile">
+
+<i class="fas fa-user-circle"></i>
+
+<span>Welcome Rider</span>
+
+</div>
+
+
+</header>
+
+
+
+
+<!-- HERO SECTION -->
+
+
+<section class="hero">
+
+
+<div class="hero-content">
+
+
+<h1>
+
+Book Your Ride Anytime
+
+</h1>
+
+
+<p>
+
+Safe, Fast and Smart Ride Sharing System
+
+</p>
+
+
+<button>
+
+Book Now 🚗
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- BOOKING SECTION -->
+
+
+<section class="booking">
+
+
+<h2>
+
+Where do you want to go?
+
+</h2>
+
+
+
+<div class="input-box">
+
+
+<i class="fas fa-location-dot"></i>
+
+
+<input 
+type="text"
+placeholder="Pickup Location"
+id="pickup"
+>
+
+
+</div>
+
+
+
+
+<div class="input-box">
+
+
+<i class="fas fa-map-marker-alt"></i>
+
+
+<input 
+type="text"
+placeholder="Destination"
+id="destination"
+>
+
+
+</div>
+
+
+
+<button id="findRide">
+
+Find Ride
+
+</button>
+
+
+</section>
+
+
+
+
+
+<!-- RIDE OPTIONS -->
+
+
+<section class="rides">
+
+
+<h2>
+
+Available Rides
+
+</h2>
+
+
+<div class="ride-cards">
+
+
+<div class="ride-card">
+
+
+<i class="fas fa-car"></i>
+
+
+<h3>
+
+Mini
+
+</h3>
+
+
+<p>
+
+₹12/km
+
+</p>
+
+
+<button>
+
+Select
+
+</button>
+
+
+</div>
+
+
+
+<div class="ride-card">
+
+
+<i class="fas fa-car-side"></i>
+
+
+<h3>
+
+Sedan
+
+</h3>
+
+
+<p>
+
+₹16/km
+
+</p>
+
+
+<button>
+
+Select
+
+</button>
+
+
+</div>
+
+
+
+<div class="ride-card">
+
+
+<i class="fas fa-car-rear"></i>
+
+
+<h3>
+
+SUV
+
+</h3>
+
+
+<p>
+
+₹22/km
+
+</p>
+
+
+<button>
+
+Select
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+<!-- ========================= -->
+<!-- DRIVER MATCHING SECTION -->
+<!-- ========================= -->
+
+
+<section class="matching">
+
+
+<h2>
+
+Finding Nearby Drivers
+
+</h2>
+
+
+
+<div class="driver-box">
+
+
+<img 
+src="https://randomuser.me/api/portraits/men/32.jpg"
+>
+
+
+
+<div>
+
+
+<h3>
+
+Rahul Sharma
+
+</h3>
+
+
+<p>
+
+🚗 Swift Dzire
+
+</p>
+
+
+<p>
+
+⭐ 4.8 Rating
+
+</p>
+
+
+<p>
+
+📍 1.2 km away
+
+</p>
+
+
+</div>
+
+
+
+<button>
+
+Confirm Driver
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="driver-box">
+
+
+<img 
+src="https://randomuser.me/api/portraits/men/45.jpg"
+>
+
+
+
+<div>
+
+
+<h3>
+
+Arjun Kumar
+
+</h3>
+
+
+<p>
+
+🚗 Tata Nexon
+
+</p>
+
+
+<p>
+
+⭐ 4.7 Rating
+
+</p>
+
+
+<p>
+
+📍 2 km away
+
+</p>
+
+
+</div>
+
+
+
+<button>
+
+View Driver
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- LIVE TRACKING -->
+<!-- ========================= -->
+
+
+<section class="tracking">
+
+
+<h2>
+
+Live Ride Tracking 📍
+
+</h2>
+
+
+<div class="map">
+
+
+<div class="car-marker">
+
+🚗
+
+</div>
+
+
+<p>
+
+Driver is moving towards pickup location...
+
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- TRIP DETAILS -->
+<!-- ========================= -->
+
+
+<section class="trip">
+
+
+<h2>
+
+Current Trip Details
+
+</h2>
+
+
+
+<div class="details">
+
+
+<p>
+
+<b>Pickup:</b>
+
+<span id="showPickup">
+
+Hyderabad
+
+</span>
+
+</p>
+
+
+
+<p>
+
+<b>Destination:</b>
+
+<span id="showDestination">
+
+Secunderabad
+
+</span>
+
+</p>
+
+
+
+<p>
+
+<b>Distance:</b>
+
+12 km
+
+</p>
+
+
+
+<p>
+
+<b>Estimated Time:</b>
+
+25 Minutes
+
+</p>
+
+
+
+<p>
+
+<b>Driver Status:</b>
+
+Arriving 🚗
+
+</p>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- FARE CALCULATION -->
+<!-- ========================= -->
+
+
+<section class="fare">
+
+
+<h2>
+
+Fare Estimate
+
+</h2>
+
+
+
+<div class="fare-box">
+
+
+<h1>
+
+₹240
+
+</h1>
+
+
+<p>
+
+Base Fare + Distance Charge
+
+</p>
+
+
+<button>
+
+Proceed Payment
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- PAYMENT -->
+<!-- ========================= -->
+
+
+<section class="payment">
+
+
+<h2>
+
+Payment Options
+
+</h2>
+
+
+
+<div class="payment-options">
+
+
+<button>
+
+💳 Card
+
+</button>
+
+
+<button>
+
+📱 UPI
+
+</button>
+
+
+<button>
+
+💵 Cash
+
+</button>
+
+
+</div>
+
+
+</section>
+<!-- ========================= -->
+<!-- RIDE HISTORY -->
+<!-- ========================= -->
+
+
+<section class="history">
+
+
+<h2>
+
+Previous Rides
+
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+
+Ride ID
+
+</th>
+
+
+<th>
+
+Date
+
+</th>
+
+
+<th>
+
+Route
+
+</th>
+
+
+<th>
+
+Amount
+
+</th>
+
+
+<th>
+
+Status
+
+</th>
+
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+<tr>
+
+<td>
+
+#RS1001
+
+</td>
+
+<td>
+
+22 July 2026
+
+</td>
+
+<td>
+
+Hyderabad → LB Nagar
+
+</td>
+
+<td>
+
+₹250
+
+</td>
+
+<td>
+
+Completed
+
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+
+#RS1002
+
+</td>
+
+<td>
+
+21 July 2026
+
+</td>
+
+<td>
+
+Madhapur → Hitech City
+
+</td>
+
+<td>
+
+₹180
+
+</td>
+
+<td>
+
+Completed
+
+</td>
+
+</tr>
+
+
+
+</tbody>
+
+
+</table>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- DRIVER REVIEW -->
+<!-- ========================= -->
+
+
+<section class="review">
+
+
+<h2>
+
+Rate Your Ride ⭐
+
+</h2>
+
+
+<div class="rating">
+
+
+<button>⭐</button>
+
+<button>⭐</button>
+
+<button>⭐</button>
+
+<button>⭐</button>
+
+<button>⭐</button>
+
+
+</div>
+
+
+<textarea
+
+placeholder="Write your feedback..."
+
+></textarea>
+
+
+<button>
+
+Submit Review
+
+</button>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- EMERGENCY SECTION -->
+<!-- ========================= -->
+
+
+<section class="emergency">
+
+
+<h2>
+
+Emergency Assistance
+
+</h2>
+
+
+
+<div class="emergency-box">
+
+
+<p>
+
+Need immediate help?
+
+</p>
+
+
+<button>
+
+🚨 SOS Emergency
+
+</button>
+
+
+
+<button>
+
+📞 Contact Driver
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- NOTIFICATIONS -->
+<!-- ========================= -->
+
+
+<section class="notifications">
+
+
+<h2>
+
+Notifications
+
+</h2>
+
+
+
+<div class="notice">
+
+🚗 Driver has accepted your ride
+
+</div>
+
+
+
+<div class="notice">
+
+📍 Driver reached pickup point
+
+</div>
+
+
+
+<div class="notice">
+
+💰 Payment successful
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<!-- ========================= -->
+<!-- FOOTER -->
+<!-- ========================= -->
+
+
+<footer>
+
+
+<hr>
+
+
+<h3>
+
+🚖 Smart Ride Sharing System
+
+</h3>
+
+
+<p>
+
+Safe • Smart • Sustainable Transportation
+
+</p>
+
+
+<p>
+
+Developed by <b>Avula Udhay Kumar</b>
+
+</p>
+
+
+</footer>
+
+
+
+
+
+<script src="../assets/js/rider.js"></script>
+
+
+</body>
+
+</html>

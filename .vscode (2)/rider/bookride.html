@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Book Ride</title>
+
+<link rel="stylesheet" href="../assets/css/rider.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<h2>🚖 RideShare</h2>
+
+</div>
+
+<div class="driver-profile">
+
+<img src="https://randomuser.me/api/portraits/women/22.jpg">
+
+<div>
+
+<h3>
+
+Anjali Verma
+
+</h3>
+
+<p>
+
+Premium Rider ⭐
+
+</p>
+
+</div>
+
+</div>
+
+</header>
+
+<section>
+
+<h2>
+
+Book Your Ride
+
+</h2>
+
+<div class="trip-box">
+
+<label>
+
+Pickup Location
+
+</label>
+
+<input
+type="text"
+placeholder="Enter Pickup Location">
+
+<label>
+
+Destination
+
+</label>
+
+<input
+type="text"
+placeholder="Enter Destination">
+
+<label>
+
+Select Vehicle
+
+</label>
+
+<select>
+
+<option>Bike</option>
+
+<option>Auto</option>
+
+<option>Mini</option>
+
+<option>Sedan</option>
+
+<option>SUV</option>
+
+</select>
+
+<label>
+
+Payment Method
+
+</label>
+
+<select>
+
+<option>Cash</option>
+
+<option>UPI</option>
+
+<option>Credit Card</option>
+
+<option>Wallet</option>
+
+</select>
+
+<button id="bookRide">
+
+🚖 Confirm Booking
+
+</button>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>
+
+Available Vehicles
+
+</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fas fa-motorcycle"></i>
+
+<h2>Bike</h2>
+
+<p>₹95</p>
+
+<p>2 mins away</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-car-side"></i>
+
+<h2>Auto</h2>
+
+<p>₹160</p>
+
+<p>3 mins away</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-car"></i>
+
+<h2>Mini</h2>
+
+<p>₹240</p>
+
+<p>5 mins away</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-taxi"></i>
+
+<h2>Sedan</h2>
+
+<p>₹420</p>
+
+<p>7 mins away</p>
+
+</div>
+
+</div>
+
+</section>
+<section>
+
+<h2>
+
+Route Summary
+
+</h2>
+
+<div class="trip-box">
+
+<p>
+
+<b>Pickup :</b>
+
+Hyderabad
+
+</p>
+
+<p>
+
+<b>Destination :</b>
+
+Gachibowli
+
+</p>
+
+<p>
+
+<b>Distance :</b>
+
+18 km
+
+</p>
+
+<p>
+
+<b>Estimated Time :</b>
+
+32 Minutes
+
+</p>
+
+<p>
+
+<b>Nearest Driver :</b>
+
+Rahul Sharma (2 mins away)
+
+</p>
+
+<button id="trackDriver">
+
+📍 Track Driver
+
+</button>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>
+
+Fare Details
+
+</h2>
+
+<div class="earnings">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Description</th>
+
+<th>Amount</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Base Fare</td>
+
+<td>₹80</td>
+
+</tr>
+
+<tr>
+
+<td>Distance Charge</td>
+
+<td>₹140</td>
+
+</tr>
+
+<tr>
+
+<td>Booking Fee</td>
+
+<td>₹20</td>
+
+</tr>
+
+<tr>
+
+<td>GST</td>
+
+<td>₹18</td>
+
+</tr>
+
+<tr>
+
+<th>Total Fare</th>
+
+<th>₹258</th>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>
+
+Available Coupons 🎁
+
+</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fas fa-tags"></i>
+
+<h2>
+
+WELCOME30
+
+</h2>
+
+<p>
+
+30% OFF
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-gift"></i>
+
+<h2>
+
+SAVE50
+
+</h2>
+
+<p>
+
+₹50 Cashback
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-percent"></i>
+
+<h2>
+
+WEEKEND20
+
+</h2>
+
+<p>
+
+20% Discount
+
+</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-wallet"></i>
+
+<h2>
+
+WALLET10
+
+</h2>
+
+<p>
+
+10% Wallet Bonus
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="support">
+
+<h2>
+
+Payment Summary
+
+</h2>
+
+<div class="support-buttons">
+
+<button>
+
+💳 Pay by Card
+
+</button>
+
+<button>
+
+📱 Pay by UPI
+
+</button>
+
+<button>
+
+💰 Cash Payment
+
+</button>
+
+<button>
+
+👛 Wallet
+
+</button>
+
+</div>
+
+</section>
+<section>
+
+<h2>
+
+Booking Confirmation
+
+</h2>
+
+<div class="trip-box">
+
+<p>
+
+<b>Booking ID :</b>
+
+BK20260725001
+
+</p>
+
+<p>
+
+<b>Driver Assigned :</b>
+
+Rahul Sharma
+
+</p>
+
+<p>
+
+<b>Vehicle :</b>
+
+Maruti Swift Dzire
+
+</p>
+
+<p>
+
+<b>Vehicle Number :</b>
+
+TS09AB1234
+
+</p>
+
+<p>
+
+<b>Driver Rating :</b>
+
+⭐ 4.8
+
+</p>
+
+<p>
+
+<b>OTP for Ride :</b>
+
+<b style="color:#2563eb;font-size:22px;">
+
+5824
+
+</b>
+
+</p>
+
+<button id="callDriver">
+
+📞 Call Driver
+
+</button>
+
+<button id="chatDriver">
+
+💬 Chat Driver
+
+</button>
+
+</div>
+
+</section>
+
+<section class="notifications">
+
+<h2>
+
+Ride Notifications
+
+</h2>
+
+<div class="notification">
+
+🚖 Your driver has accepted the ride.
+
+</div>
+
+<div class="notification">
+
+📍 Driver is 2 minutes away.
+
+</div>
+
+<div class="notification">
+
+💳 Payment will be collected after ride completion.
+
+</div>
+
+<div class="notification">
+
+🎁 Coupon <b>WELCOME30</b> applied successfully.
+
+</div>
+
+</section>
+
+<section class="reviews">
+
+<h2>
+
+Safety Tips
+
+</h2>
+
+<div class="review-card">
+
+<h3>
+
+🛡 Verify Driver
+
+</h3>
+
+<p>
+
+Check the vehicle number and driver's identity before starting the ride.
+
+</p>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+
+📍 Share Trip
+
+</h3>
+
+<p>
+
+Share your live trip status with your family or friends.
+
+</p>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+
+🚨 Emergency
+
+</h3>
+
+<p>
+
+Use the SOS button anytime if you feel unsafe.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="support">
+
+<h2>
+
+Quick Actions
+
+</h2>
+
+<div class="support-buttons">
+
+<button onclick="window.location.href='dashboard.html'">
+
+🏠 Dashboard
+
+</button>
+
+<button onclick="window.location.href='history.html'">
+
+📜 Ride History
+
+</button>
+
+<button onclick="window.location.href='profile.html'">
+
+👤 My Profile
+
+</button>
+
+<button onclick="window.location.href='../index.html'">
+
+🚪 Logout
+
+</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<hr>
+
+<h3>
+
+🚖 Smart Ride Sharing System
+
+</h3>
+
+<p>
+
+Book Ride Portal
+
+</p>
+
+<p>
+
+Developed by <b>Avula Udhay Kumar</b>
+
+</p>
+
+</footer>
+
+<script src="../assets/js/rider.js"></script>
+
+</body>
+
+</html>

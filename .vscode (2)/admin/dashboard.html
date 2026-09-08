@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Super Admin Dashboard</title>
+
+<link rel="stylesheet" href="../assets/css/dashboard.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+
+<h2>🚖 RideShare</h2>
+
+<p>Super Admin</p>
+
+</div>
+
+<ul>
+
+<li class="active">
+
+<i class="fas fa-chart-line"></i>
+
+Dashboard
+
+</li>
+
+<li>
+
+<i class="fas fa-user-plus"></i>
+
+Drivers
+
+</li>
+
+<li>
+
+<i class="fas fa-user-shield"></i>
+
+Admins
+
+</li>
+
+<li>
+
+<i class="fas fa-users"></i>
+
+Riders
+
+</li>
+
+<li>
+
+<i class="fas fa-car"></i>
+
+Trips
+
+</li>
+
+<li>
+
+<i class="fas fa-chart-pie"></i>
+
+Reports
+
+</li>
+
+<li>
+
+<i class="fas fa-cog"></i>
+
+Settings
+
+</li>
+
+<li>
+
+<i class="fas fa-right-from-bracket"></i>
+
+Logout
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<header>
+
+<div>
+
+<h1>
+
+Welcome Super Admin 👑
+
+</h1>
+
+<p>
+
+Manage your complete Ride Sharing System
+
+</p>
+
+</div>
+
+<div class="profile">
+
+<img src="https://randomuser.me/api/portraits/men/1.jpg">
+
+<h3>Avula Udhay Kumar</h3>
+
+</div>
+
+</header>
+
+<section class="cards">
+
+<div class="card">
+
+<i class="fas fa-user-plus"></i>
+
+<h2>245</h2>
+
+<p>Total Drivers</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-users"></i>
+
+<h2>850</h2>
+
+<p>Total Riders</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-route"></i>
+
+<h2>1350</h2>
+
+<p>Total Trips</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-money-bill-wave"></i>
+
+<h2>₹4.8L</h2>
+
+<p>Revenue</p>
+
+</div>
+
+</section>
+
+<section class="management">
+
+<h2>
+
+Driver Management
+
+</h2>
+
+<div class="toolbar">
+
+<button id="addDriver">
+
+➕ Add Driver
+
+</button>
+
+<button id="removeDriver">
+
+❌ Remove Driver
+
+</button>
+
+<button id="editDriver">
+
+✏ Edit Driver
+
+</button>
+
+<button id="suspendDriver">
+
+⛔ Suspend Driver
+
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Vehicle</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>D001</td>
+
+<td>Rahul Sharma</td>
+
+<td>Swift Dzire</td>
+
+<td>Active</td>
+
+<td>
+
+<button>Edit</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D002</td>
+
+<td>Priya Reddy</td>
+
+<td>Hyundai i20</td>
+
+<td>Active</td>
+
+<td>
+
+<button>Edit</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>D003</td>
+
+<td>Arjun Kumar</td>
+
+<td>Tata Nexon</td>
+
+<td>Suspended</td>
+
+<td>
+
+<button>Edit</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+        </section>
+
+        <!-- ========================= -->
+        <!-- Admin Management -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Admin Management</h2>
+
+            <div class="toolbar">
+
+                <button id="addAdmin">
+                    ➕ Add Admin
+                </button>
+
+                <button id="removeAdmin">
+                    ❌ Remove Admin
+                </button>
+
+                <button id="resetAdmin">
+                    🔑 Reset Password
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>A001</td>
+
+                        <td>Vikram Rao</td>
+
+                        <td>vikram@rideshare.com</td>
+
+                        <td>Active</td>
+
+                        <td>
+
+                            <button>Edit</button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>A002</td>
+
+                        <td>Sneha Patel</td>
+
+                        <td>sneha@rideshare.com</td>
+
+                        <td>Active</td>
+
+                        <td>
+
+                            <button>Edit</button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Rider Management -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Recent Riders</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Phone</th>
+
+                        <th>Trips</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>R001</td>
+
+                        <td>Anjali</td>
+
+                        <td>9876543210</td>
+
+                        <td>52</td>
+
+                        <td>Active</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>R002</td>
+
+                        <td>Karthik</td>
+
+                        <td>9123456780</td>
+
+                        <td>19</td>
+
+                        <td>Active</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>R003</td>
+
+                        <td>Meghana</td>
+
+                        <td>9988776655</td>
+
+                        <td>84</td>
+
+                        <td>Premium</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Reports -->
+        <!-- ========================= -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <i class="fas fa-car"></i>
+
+                <h2>325</h2>
+
+                <p>Today's Trips</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-wallet"></i>
+
+                <h2>₹82,450</h2>
+
+                <p>Today's Revenue</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-star"></i>
+
+                <h2>4.9</h2>
+
+                <p>Average Rating</p>
+
+            </div>
+
+            <div class="card">
+
+                <i class="fas fa-user-check"></i>
+
+                <h2>98%</h2>
+
+                <p>Ride Success</p>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Recent Activity -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Recent Activity</h2>
+
+            <ul style="line-height:2; padding-left:25px;">
+
+                <li>✅ Driver Rahul Sharma completed Ride #4562</li>
+
+                <li>✅ New Rider Registration - Suresh Kumar</li>
+
+                <li>⚠ Driver Arjun Kumar suspended</li>
+
+                <li>💰 Payment received ₹1,250</li>
+
+                <li>🚖 Ride #4580 successfully completed</li>
+
+            </ul>
+
+        </section>
+                <!-- ========================= -->
+        <!-- Analytics Section -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Analytics Dashboard</h2>
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <h2>+18%</h2>
+
+                    <p>Monthly Growth</p>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fas fa-user-clock"></i>
+
+                    <h2>1,245</h2>
+
+                    <p>Active Users Today</p>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fas fa-road"></i>
+
+                    <h2>18,540 km</h2>
+
+                    <p>Total Distance Today</p>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fas fa-gas-pump"></i>
+
+                    <h2>920 L</h2>
+
+                    <p>Fuel Saved (Ride Share)</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Revenue Graph Placeholder -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Revenue Analytics</h2>
+
+            <div class="chart-box">
+
+                <h3>Monthly Revenue Chart</h3>
+
+                <canvas id="revenueChart" height="120"></canvas>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Notifications -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Notifications</h2>
+
+            <div class="notification">
+
+                🔔 5 new driver registration requests
+
+            </div>
+
+            <div class="notification">
+
+                🚗 12 rides are currently active
+
+            </div>
+
+            <div class="notification">
+
+                ⚠ 2 drivers require document verification
+
+            </div>
+
+            <div class="notification">
+
+                💳 Daily payment settlement completed
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Settings -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>System Settings</h2>
+
+            <div class="toolbar">
+
+                <button>🌙 Toggle Dark Mode</button>
+
+                <button>🔐 Change Password</button>
+
+                <button>📤 Backup Database</button>
+
+                <button>⚙ System Configuration</button>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Emergency Panel -->
+        <!-- ========================= -->
+
+        <section class="management">
+
+            <h2>Emergency Controls</h2>
+
+            <div class="toolbar">
+
+                <button>🚨 Block Driver</button>
+
+                <button>🚫 Block Rider</button>
+
+                <button>🛑 Stop Ride</button>
+
+                <button>📞 Emergency Contact</button>
+
+            </div>
+
+        </section>
+
+        <!-- ========================= -->
+        <!-- Footer -->
+        <!-- ========================= -->
+
+        <footer style="margin-top:40px;text-align:center;padding:20px;">
+
+            <hr>
+
+            <p>
+
+                © 2026 Smart Ride Sharing System
+
+                <br>
+
+                Developed by <strong>Avula Udhay Kumar</strong>
+
+            </p>
+
+        </footer>
+
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+
+</body>
+</html>  

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RideShare Rider Dashboard</title>
+
+<!-- Rider CSS -->
+<link rel="stylesheet" href="../assets/css/rider.css">
+
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+<!-- Leaflet CSS -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="logo">
+
+        <h2>🚖 RideShare Rider</h2>
+
+    </div>
+
+
+    <div class="driver-profile">
+
+        <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Rider Profile"
+        >
+
+        <div>
+
+            <h3>Jaswanth</h3>
+
+            <p>Premium Rider ⭐</p>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     QUICK STATS
+===================================================== -->
+
+<section class="cards">
+
+    <div class="card">
+
+        <i class="fas fa-location-dot"></i>
+
+        <h2>12</h2>
+
+        <p>Completed Trips</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <i class="fas fa-wallet"></i>
+
+        <h2>₹1,280</h2>
+
+        <p>Wallet Balance</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <i class="fas fa-star"></i>
+
+        <h2>4.9</h2>
+
+        <p>Driver Rating Given</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <i class="fas fa-ticket"></i>
+
+        <h2>5</h2>
+
+        <p>Coupons Available</p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOOK A RIDE
+===================================================== -->
+
+<section>
+
+    <h2>Book a Ride</h2>
+
+
+    <div class="trip-box">
+
+        <p>
+            📍 Pickup Location
+        </p>
+
+        <input
+            id="pickupLocation"
+            type="text"
+            placeholder="Enter Pickup Location"
+            autocomplete="off"
+        >
+
+
+        <p>
+            🎯 Destination
+        </p>
+
+        <input
+            id="destinationLocation"
+            type="text"
+            placeholder="Enter Destination"
+            autocomplete="off"
+        >
+
+
+        <p>
+            🚗 Select Vehicle
+        </p>
+
+        <select id="vehicleType">
+
+            <option value="Bike">Bike</option>
+
+            <option value="Auto">Auto</option>
+
+            <option value="Mini">Mini</option>
+
+            <option value="Sedan">Sedan</option>
+
+            <option value="SUV">SUV</option>
+
+        </select>
+
+
+        <button
+            id="bookRide"
+            type="button"
+        >
+            🚖 Book Ride
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CURRENT RIDE STATUS
+===================================================== -->
+
+<section>
+
+    <h2>Current Ride Status</h2>
+
+
+    <div class="trip-box">
+
+        <p>
+
+            <b>Driver :</b>
+
+            <span id="currentDriver">
+                Searching Driver...
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Vehicle :</b>
+
+            <span id="currentVehicle">
+                Waiting for driver
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Vehicle Number :</b>
+
+            <span id="currentVehicleNumber">
+                Not assigned
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>ETA :</b>
+
+            <span id="currentETA">
+                --
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Status :</b>
+
+            <span id="currentStatus">
+                Waiting for ride
+            </span>
+
+        </p>
+
+
+        <button
+            id="trackRide"
+            type="button"
+        >
+            📍 Track Ride
+        </button>
+
+
+        <button
+            id="cancelRide"
+            type="button"
+        >
+            ❌ Cancel Ride
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LIVE RIDE TRACKING
+===================================================== -->
+
+<section class="ride-map-section">
+
+    <h2>
+        📍 Live Ride Tracking
+    </h2>
+
+
+    <div class="map-container">
+
+        <div id="riderMap"></div>
+
+    </div>
+
+
+    <!-- MAP INFORMATION -->
+
+    <div class="map-info">
+
+        <p>
+
+            <b>Pickup:</b>
+
+            <span id="mapPickup">
+                Not selected
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Destination:</b>
+
+            <span id="mapDestination">
+                Not selected
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Distance:</b>
+
+            <span id="mapDistance">
+                -- km
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Driver:</b>
+
+            <span id="mapDriver">
+                Searching...
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <b>Status:</b>
+
+            <span id="mapStatus">
+                Waiting for ride
+            </span>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ESTIMATED FARE
+===================================================== -->
+
+<section>
+
+    <h2>Estimated Fare</h2>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <i class="fas fa-motorcycle"></i>
+
+            <h2>₹95</h2>
+
+            <p>Bike</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-car-side"></i>
+
+            <h2>₹180</h2>
+
+            <p>Auto</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-car"></i>
+
+            <h2>₹260</h2>
+
+            <p>Mini</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-taxi"></i>
+
+            <h2>₹420</h2>
+
+            <p>Sedan</p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SPECIAL OFFERS
+===================================================== -->
+
+<section>
+
+    <h2>Special Offers 🎁</h2>
+
+
+    <div class="review-card">
+
+        <h3>🎉 Welcome Offer</h3>
+
+        <p>
+            Get 30% OFF on your next ride.
+        </p>
+
+    </div>
+
+
+    <div class="review-card">
+
+        <h3>💳 Digital Payment Bonus</h3>
+
+        <p>
+            Pay using UPI and receive ₹50 cashback.
+        </p>
+
+    </div>
+
+
+    <div class="review-card">
+
+        <h3>🚖 Weekend Offer</h3>
+
+        <p>
+            Flat 20% discount on weekend rides.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RECENT RIDE HISTORY
+===================================================== -->
+
+<section>
+
+    <h2>Recent Ride History</h2>
+
+
+    <div class="earnings">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>From</th>
+
+                    <th>To</th>
+
+                    <th>Fare</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>25 Jul 2026</td>
+
+                    <td>Hyderabad</td>
+
+                    <td>LB Nagar</td>
+
+                    <td>₹220</td>
+
+                    <td>Completed</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>24 Jul 2026</td>
+
+                    <td>Uppal</td>
+
+                    <td>Hitech City</td>
+
+                    <td>₹340</td>
+
+                    <td>Completed</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>23 Jul 2026</td>
+
+                    <td>Dilsukhnagar</td>
+
+                    <td>Gachibowli</td>
+
+                    <td>₹410</td>
+
+                    <td>Completed</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FAVOURITE DRIVERS
+===================================================== -->
+
+<section>
+
+    <h2>Favourite Drivers</h2>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <i class="fas fa-user"></i>
+
+            <h2>Rahul</h2>
+
+            <p>⭐ 4.9 Rating</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-user"></i>
+
+            <h2>Kiran</h2>
+
+            <p>⭐ 4.8 Rating</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-user"></i>
+
+            <h2>Suresh</h2>
+
+            <p>⭐ 4.9 Rating</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <i class="fas fa-user"></i>
+
+            <h2>Mahesh</h2>
+
+            <p>⭐ 5.0 Rating</p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     NOTIFICATIONS
+===================================================== -->
+
+<section class="notifications">
+
+    <h2>Notifications</h2>
+
+
+    <div class="notification">
+
+        🎉 You received a ₹50 cashback.
+
+    </div>
+
+
+    <div class="notification">
+
+        🚖 Driver Rahul accepted your ride.
+
+    </div>
+
+
+    <div class="notification">
+
+        ⭐ Please rate your last trip.
+
+    </div>
+
+
+    <div class="notification">
+
+        🎁 New weekend offers are available.
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     RIDER PROFILE
+===================================================== -->
+
+<section class="profile-section">
+
+    <h2>Rider Profile</h2>
+
+
+    <div class="profile-card">
+
+        <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="Jaswanth Profile"
+        >
+
+
+        <div>
+
+            <h3>Jaswanth</h3>
+
+            <p>
+                📧 jaswanth@email.com
+            </p>
+
+            <p>
+                📞 +91 98765 43210
+            </p>
+
+            <p>
+                Membership : Premium Rider
+            </p>
+
+            <p>
+                Completed Trips : 12
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <hr>
+
+    <h3>
+        🚖 Smart Ride Sharing System
+    </h3>
+
+    <p>
+        Rider Dashboard
+    </p>
+
+    <p>
+        Developed by <b>Avula Udhay Kumar</b>
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     LEAFLET JAVASCRIPT
+     
+     IMPORTANT:
+     Include Leaflet ONLY ONCE.
+===================================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<!-- =====================================================
+     RIDER JAVASCRIPT
+===================================================== -->
+
+<script src="../assets/js/rider.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": "USR1786028119994",
+      "name": "lucky",
+      "email": "lucky@gmail.com",
+      "phone": "1234567891",
+      "password": "123456",
+      "role": "rider",
+      "status": "Active",
+      "createdAt": "2026-08-06T14:55:19.994Z"
+    },
+    {
+      "id": "USR1786028920128",
+      "name": "krishna",
+      "email": "krishna@gmail.com",
+      "phone": "1234567891",
+      "password": "123456",
+      "role": "driver",
+      "status": "active",
+      "createdAt": "2026-08-06T15:08:40.128Z"
+    }
+  ],
+  "drivers": [],
+  "rides": [],
+  "logs": [
+    {
+      "id": "LOG178602812001051",
+      "action": "USER_REGISTERED",
+      "description": "lucky registered as rider",
+      "user": "lucky",
+      "timestamp": "2026-08-06T14:55:20.010Z"
+    },
+    {
+      "id": "LOG1786028920128",
+      "type": "REGISTER",
+      "userId": "USR1786028920128",
+      "message": "krishna created a driver account.",
+      "timestamp": "2026-08-06T15:08:40.128Z"
+    }
+  ],
+  "notifications": [],
+  "settings": {
+    "rideFare": {
+      "Bike": 95,
+      "Auto": 180,
+      "Mini": 260,
+      "Sedan": 420,
+      "SUV": 520
+    }
+  }
+}

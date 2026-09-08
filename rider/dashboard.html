@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard - Smart Ride Sharing System</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Leaflet Maps CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 15px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            color: #2563eb;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .driver-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f5f9;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #22c55e;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        .details-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .details-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .details-list li span:first-child {
+            color: #64748b;
+        }
+
+        .details-list li span:last-child {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .otp-input-group {
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .otp-input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #334155;
+        }
+
+        .otp-input-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+        }
+
+        .btn-accept { background: #22c55e; color: white; }
+        .btn-accept:hover:not(:disabled) { background: #16a34a; }
+
+        .btn-start { background: #2563eb; color: white; }
+        .btn-start:hover:not(:disabled) { background: #1d4ed8; }
+
+        .btn-complete { background: #0f172a; color: white; }
+        .btn-complete:hover:not(:disabled) { background: #1e293b; }
+
+        .btn-decline { background: #ef4444; color: white; }
+        .btn-decline:hover:not(:disabled) { background: #dc2626; }
+
+        #driverMap {
+            width: 100%;
+            height: 380px;
+            border-radius: 12px;
+            background: #e2e8f0;
+        }
+
+        @media(max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <a href="../index.html" class="logo">🚖 RideShare Driver</a>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="../rider/bookride.html"><i class="fas fa-user"></i> Rider Panel</a>
+            <a href="../pages/login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Trip & Control Panel -->
+        <div class="card">
+            <h2><i class="fas fa-taxi" style="color: #2563eb;"></i> Active Trip Management</h2>
+
+            <!-- Duty Toggle -->
+            <div class="driver-status-bar">
+                <span><strong>Online Duty Status</strong></span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="dutyToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Trip Info List -->
+            <ul class="details-list">
+                <li>
+                    <span>Rider Name:</span>
+                    <span id="riderName">Waiting for request...</span>
+                </li>
+                <li>
+                    <span>Pickup Location:</span>
+                    <span id="pickupLoc">-</span>
+                </li>
+                <li>
+                    <span>Destination:</span>
+                    <span id="destLoc">-</span>
+                </li>
+                <li>
+                    <span>Estimated Fare:</span>
+                    <span id="tripFare">-</span>
+                </li>
+                <li>
+                    <span>Ride Status:</span>
+                    <span id="rideStatus" class="badge-status">Offline/Idle</span>
+                </li>
+            </ul>
+
+            <!-- OTP Input Field -->
+            <div class="otp-input-group" id="otpBox">
+                <label for="driverOtpInput"><i class="fas fa-key"></i> Enter Rider OTP to Start</label>
+                <input type="text" id="driverOtpInput" maxlength="4" placeholder="e.g. 4829">
+            </div>
+
+            <!-- Ride Controls -->
+            <div class="action-buttons">
+                <button id="btnAccept" class="btn btn-accept" disabled>
+                    <i class="fas fa-check"></i> Accept Ride Request
+                </button>
+                <button id="btnStart" class="btn btn-start" disabled>
+                    <i class="fas fa-play"></i> Verify OTP & Start Ride
+                </button>
+                <button id="btnComplete" class="btn btn-complete" disabled>
+                    <i class="fas fa-flag-checkered"></i> Complete Ride
+                </button>
+                <button id="btnDecline" class="btn btn-decline" disabled>
+                    <i class="fas fa-times"></i> Decline Request
+                </button>
+            </div>
+        </div>
+
+        <!-- Interactive Map -->
+        <div class="card">
+            <h2><i class="fas fa-map-marked-alt" style="color: #2563eb;"></i> Live Navigation</h2>
+            <div id="driverMap"></div>
+        </div>
+
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            "use strict";
+
+            const dutyToggle = document.getElementById("dutyToggle");
+            const riderName = document.getElementById("riderName");
+            const pickupLoc = document.getElementById("pickupLoc");
+            const destLoc = document.getElementById("destLoc");
+            const tripFare = document.getElementById("tripFare");
+            const rideStatus = document.getElementById("rideStatus");
+            const otpBox = document.getElementById("otpBox");
+            const driverOtpInput = document.getElementById("driverOtpInput");
+
+            const btnAccept = document.getElementById("btnAccept");
+            const btnStart = document.getElementById("btnStart");
+            const btnComplete = document.getElementById("btnComplete");
+            const btnDecline = document.getElementById("btnDecline");
+
+            let map = null;
+            let pickupMarker = null;
+            let destMarker = null;
+            let routeLine = null;
+            let activeRide = null;
+
+            function initMap() {
+                map = L.map("driverMap").setView([17.3850, 78.4867], 11);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors"
+                }).addTo(map);
+            }
+
+            function loadActiveRide() {
+                if (!dutyToggle.checked) {
+                    resetDashboard();
+                    return;
+                }
+
+                const storedData = localStorage.getItem("activeRide");
+                if (storedData) {
+                    activeRide = JSON.parse(storedData);
+                    
+                    riderName.textContent = activeRide.riderName || "Rahul Sharma";
+                    pickupLoc.textContent = activeRide.pickup || "-";
+                    destLoc.textContent = activeRide.destination || "-";
+                    tripFare.textContent = activeRide.fare || "-";
+
+                    updateBadge(activeRide.status || "Requested", "#fef3c7", "#d97706");
+
+                    btnAccept.disabled = false;
+                    btnDecline.disabled = false;
+                    btnStart.disabled = true;
+                    btnComplete.disabled = true;
+
+                    renderMapRoute(activeRide.pickupCoords, activeRide.destCoords);
+                } else {
+                    resetDashboard();
+                }
+            }
+
+            function renderMapRoute(pCoords, dCoords) {
+                if (pickupMarker) map.removeLayer(pickupMarker);
+                if (destMarker) map.removeLayer(destMarker);
+                if (routeLine) map.removeLayer(routeLine);
+
+                const pLat = pCoords ? pCoords.lat : 17.3605;
+                const pLng = pCoords ? pCoords.lng : 78.5475;
+                const dLat = dCoords ? dCoords.lat : 17.4401;
+                const dLng = dCoords ? dCoords.lng : 78.3489;
+
+                pickupMarker = L.marker([pLat, pLng]).addTo(map).bindPopup("Pickup Point");
+                destMarker = L.marker([dLat, dLng]).addTo(map).bindPopup("Destination Point");
+                routeLine = L.polyline([[pLat, pLng], [dLat, dLng]], { color: "#2563eb", weight: 4 }).addTo(map);
+
+                map.fitBounds(L.latLngBounds([pLat, pLng], [dLat, dLng]), { padding: [30, 30] });
+            }
+
+            function updateBadge(text, bg, color) {
+                rideStatus.textContent = text;
+                rideStatus.style.background = bg;
+                rideStatus.style.color = color;
+            }
+
+            function resetDashboard() {
+                riderName.textContent = "Waiting for request...";
+                pickupLoc.textContent = "-";
+                destLoc.textContent = "-";
+                tripFare.textContent = "-";
+
+                otpBox.style.display = "none";
+                driverOtpInput.value = "";
+
+                btnAccept.disabled = true;
+                btnStart.disabled = true;
+                btnComplete.disabled = true;
+                btnDecline.disabled = true;
+
+                if (pickupMarker) map.removeLayer(pickupMarker);
+                if (destMarker) map.removeLayer(destMarker);
+                if (routeLine) map.removeLayer(routeLine);
+
+                if (dutyToggle.checked) {
+                    updateBadge("Online / Idle", "#dcfce7", "#15803d");
+                } else {
+                    updateBadge("Offline", "#f1f5f9", "#475569");
+                }
+            }
+
+            btnAccept.addEventListener("click", function () {
+                updateBadge("Accepted (Arrived at Pickup)", "#e0f2fe", "#0369a1");
+                btnAccept.disabled = true;
+                btnDecline.disabled = true;
+                
+                otpBox.style.display = "block";
+                btnStart.disabled = false;
+
+                if (activeRide) {
+                    activeRide.status = "Accepted";
+                    localStorage.setItem("activeRide", JSON.stringify(activeRide));
+                }
+            });
+
+            btnStart.addEventListener("click", function () {
+                const enteredOtp = driverOtpInput.value.trim();
+
+                if (!activeRide || !activeRide.otp) {
+                    alert("No active ride found!");
+                    return;
+                }
+
+                if (enteredOtp !== activeRide.otp) {
+                    alert("Incorrect OTP! Check the rider screen for the correct OTP.");
+                    return;
+                }
+
+                alert("OTP Verified! Trip Started.");
+                updateBadge("In Progress", "#dbeafe", "#1d4ed8");
+                otpBox.style.display = "none";
+                btnStart.disabled = true;
+                btnComplete.disabled = false;
+
+                activeRide.status = "In Progress";
+                localStorage.setItem("activeRide", JSON.stringify(activeRide));
+            });
+
+            btnComplete.addEventListener("click", function () {
+                alert("Trip completed successfully! Fare: " + (activeRide ? activeRide.fare : "Paid"));
+                localStorage.removeItem("activeRide");
+                resetDashboard();
+            });
+
+            btnDecline.addEventListener("click", function () {
+                localStorage.removeItem("activeRide");
+                resetDashboard();
+            });
+
+            dutyToggle.addEventListener("change", loadActiveRide);
+
+            // Listen for booking updates across tabs in real time
+            window.addEventListener("storage", function (event) {
+                if (event.key === "activeRide") {
+                    loadActiveRide();
+                }
+            });
+
+            initMap();
+            loadActiveRide();
+        });
+    </script>
+</body>
+
+</html>

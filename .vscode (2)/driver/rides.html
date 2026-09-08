@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ride Requests</title>
+
+<link rel="stylesheet" href="../assets/css/driver.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<h2>🚖 RideShare Driver</h2>
+
+</div>
+
+<div class="driver-profile">
+
+<img src="https://randomuser.me/api/portraits/men/11.jpg">
+
+<div>
+
+<h3>Rahul Sharma</h3>
+
+<p>⭐ 4.8 Rating</p>
+
+</div>
+
+</div>
+
+</header>
+
+<section>
+
+<h2>
+
+Available Ride Requests
+
+</h2>
+
+<div class="request-card">
+
+<div>
+
+<h3>👤 Rider : Priya</h3>
+
+<p>📍 Pickup : LB Nagar</p>
+
+<p>🎯 Destination : Gachibowli</p>
+
+<p>💰 Fare : ₹340</p>
+
+<p>📏 Distance : 18 km</p>
+
+</div>
+
+<div>
+
+<button class="acceptRide">
+
+Accept Ride</button>
+
+<button class="rejectRide">
+
+Reject</button>
+
+</div>
+
+</div>
+
+<div class="request-card">
+
+<div>
+
+<h3>👤 Rider : Arjun</h3>
+
+<p>📍 Pickup : Uppal</p>
+
+<p>🎯 Destination : Secunderabad</p>
+
+<p>💰 Fare : ₹210</p>
+
+<p>📏 Distance : 10 km</p>
+
+</div>
+
+<div>
+
+<button class="acceptRide">
+
+Accept Ride</button>
+
+<button class="rejectRide">
+
+Reject</button>
+
+</div>
+
+</div>
+
+<div class="request-card">
+
+<div>
+
+<h3>👤 Rider : Kavya</h3>
+
+<p>📍 Pickup : Dilsukhnagar</p>
+
+<p>🎯 Destination : Hitech City</p>
+
+<p>💰 Fare : ₹480</p>
+
+<p>📏 Distance : 24 km</p>
+
+</div>
+
+<div>
+
+<button class="acceptRide">
+
+Accept Ride</button>
+
+<button class="rejectRide">
+
+Reject</button>
+
+</div>
+
+</div>
+<section>
+
+<h2>
+
+Current Active Ride
+
+</h2>
+
+<div class="trip-box">
+
+<p>
+
+<b>Passenger :</b>
+
+Priya
+
+</p>
+
+<p>
+
+<b>Pickup :</b>
+
+LB Nagar
+
+</p>
+
+<p>
+
+<b>Destination :</b>
+
+Gachibowli
+
+</p>
+
+<p>
+
+<b>Distance :</b>
+
+18 km
+
+</p>
+
+<p>
+
+<b>Estimated Time :</b>
+
+28 Minutes
+
+</p>
+
+<p>
+
+<b>Fare :</b>
+
+₹340
+
+</p>
+
+<p>
+
+<b>Status :</b>
+
+Driver Heading to Pickup 🚖
+
+</p>
+
+<button id="startRide">
+
+Start Ride
+
+</button>
+
+<button id="completeRide">
+
+Complete Ride
+
+</button>
+
+</div>
+
+</section>
+
+<section class="earnings">
+
+<h2>
+
+Today's Ride Summary
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Ride ID</th>
+
+<th>Passenger</th>
+
+<th>Distance</th>
+
+<th>Fare</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>RD1001</td>
+
+<td>Anjali</td>
+
+<td>8 km</td>
+
+<td>₹220</td>
+
+<td>Completed</td>
+
+</tr>
+
+<tr>
+
+<td>RD1002</td>
+
+<td>Karthik</td>
+
+<td>12 km</td>
+
+<td>₹340</td>
+
+<td>Completed</td>
+
+</tr>
+
+<tr>
+
+<td>RD1003</td>
+
+<td>Priya</td>
+
+<td>18 km</td>
+
+<td>₹340</td>
+
+<td>In Progress</td>
+
+</tr>
+
+<tr>
+
+<td>RD1004</td>
+
+<td>Rahul</td>
+
+<td>6 km</td>
+
+<td>₹180</td>
+
+<td>Completed</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="support">
+
+<h2>
+
+Quick Actions
+
+</h2>
+
+<div class="support-buttons">
+
+<button onclick="window.location.href='dashboard.html'">
+
+🏠 Dashboard
+
+</button>
+
+<button onclick="window.location.href='earnings.html'">
+
+💰 Earnings
+
+</button>
+
+<button onclick="window.location.href='profile.html'">
+
+👤 Profile
+
+</button>
+
+<button onclick="window.location.href='../index.html'">
+
+🚪 Logout
+
+</button>
+
+</div>
+
+</section>
+<section class="reviews">
+
+<h2>
+
+Passenger Ratings
+
+</h2>
+
+<div class="review-card">
+
+<h3>
+
+Anjali
+
+</h3>
+
+<p>
+
+⭐⭐⭐⭐⭐
+
+</p>
+
+<p>
+
+Very polite and safe driving.
+
+</p>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+
+Karthik
+
+</h3>
+
+<p>
+
+⭐⭐⭐⭐
+
+</p>
+
+<p>
+
+Reached on time.
+
+</p>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+
+Priya
+
+</h3>
+
+<p>
+
+⭐⭐⭐⭐⭐
+
+</p>
+
+<p>
+
+Excellent experience.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="notifications">
+
+<h2>
+
+Recent Notifications
+
+</h2>
+
+<div class="notification">
+
+🚖 New ride request received.
+
+</div>
+
+<div class="notification">
+
+💰 ₹340 credited to your wallet.
+
+</div>
+
+<div class="notification">
+
+⭐ Passenger gave you a 5-star rating.
+
+</div>
+
+<div class="notification">
+
+🔧 Vehicle service reminder after 500 km.
+
+</div>
+
+</section>
+
+<section class="emergency">
+
+<h2>
+
+Emergency Options
+
+</h2>
+
+<div>
+
+<button id="sosBtn">
+
+🚨 SOS
+
+</button>
+
+<button id="shareLocationBtn">
+
+📍 Share Live Location
+
+</button>
+
+<button id="cancelRideBtn">
+
+❌ Cancel Current Ride
+
+</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<hr>
+
+<h3>
+
+🚖 Smart Ride Sharing System
+
+</h3>
+
+<p>
+
+Driver Ride Management Portal
+
+</p>
+
+<p>
+
+Developed by <b>Avula Udhay Kumar</b>
+
+</p>
+
+</footer>
+
+<script src="../assets/js/driver.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1532 @@
+"use strict";
+
+/* ==========================================================
+   SMART RIDESHARE - DRIVER PORTAL
+   PART 1 : VARIABLES + LIVE MAP
+========================================================== */
+
+console.clear();
+
+console.log("🚖 Driver Portal Loading...");
+
+/* ==========================================================
+   GLOBAL VARIABLES
+========================================================== */
+
+const API = "http://localhost:3000/api";
+
+let map;
+let driverMarker;
+let riderMarker;
+let destinationMarker;
+let routeLine = null;
+
+let driverOnline = true;
+let rideAccepted = false;
+let rideStarted = false;
+
+let currentRide = null;
+
+let driverLocation = {
+    lat: 17.385044,
+    lng: 78.486671
+};
+
+const rideRequests = [
+
+    {
+        rider: "Arjun Kumar",
+        pickup: "Madhapur",
+        destination: "Hitech City",
+        vehicle: "Swift Dzire",
+        fare: 245,
+        distance: "6.2 km",
+        eta: "14 mins",
+        pickupLat:17.4474,
+        pickupLng:78.3915,
+        destLat:17.4435,
+        destLng:78.3772
+    },
+
+    {
+        rider:"Vikram Singh",
+        pickup:"Gachibowli",
+        destination:"Financial District",
+        vehicle:"Hyundai Aura",
+        fare:320,
+        distance:"8.5 km",
+        eta:"18 mins",
+        pickupLat:17.4401,
+        pickupLng:78.3489,
+        destLat:17.4295,
+        destLng:78.3534
+    },
+
+    {
+        rider:"Rohit Verma",
+        pickup:"Ameerpet",
+        destination:"Banjara Hills",
+        vehicle:"Maruti Ertiga",
+        fare:180,
+        distance:"4 km",
+        eta:"10 mins",
+        pickupLat:17.4375,
+        pickupLng:78.4483,
+        destLat:17.4126,
+        destLng:78.4482
+    }
+
+];
+
+/* ==========================================================
+   DOM
+========================================================== */
+
+const driverStatusText =
+document.getElementById("driverStatusText");
+
+const driverStatusDescription =
+document.getElementById("driverStatusDescription");
+
+const completedRides =
+document.getElementById("completedRides");
+
+const todayEarnings =
+document.getElementById("todayEarnings");
+
+const distanceTravelled =
+document.getElementById("distanceTravelled");
+
+const requestRider =
+document.getElementById("requestRider");
+
+const requestPickup =
+document.getElementById("requestPickup");
+
+const requestDestination =
+document.getElementById("requestDestination");
+
+const requestVehicle =
+document.getElementById("requestVehicle");
+
+const requestFare =
+document.getElementById("requestFare");
+
+const currentRider =
+document.getElementById("currentRider");
+
+const currentPickup =
+document.getElementById("currentPickup");
+
+const currentDestination =
+document.getElementById("currentDestination");
+
+const currentDistance =
+document.getElementById("currentDistance");
+
+const currentEta =
+document.getElementById("currentEta");
+
+const currentStatus =
+document.getElementById("currentStatus");
+
+/* ==========================================================
+   MAP
+========================================================== */
+
+function initializeMap(){
+
+    map = L.map("driverMap").setView(
+        [driverLocation.lat,driverLocation.lng],
+        13
+    );
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom:19,
+            attribution:"© OpenStreetMap"
+        }
+    ).addTo(map);
+
+    driverMarker = L.marker(
+        [driverLocation.lat,driverLocation.lng]
+    )
+    .addTo(map)
+    .bindPopup("🚖 Driver");
+
+}
+
+initializeMap();
+
+/* ==========================================================
+   GPS TRACKING
+========================================================== */
+
+if(navigator.geolocation){
+
+    navigator.geolocation.watchPosition(
+
+        function(position){
+
+            driverLocation.lat =
+            position.coords.latitude;
+
+            driverLocation.lng =
+            position.coords.longitude;
+
+            driverMarker.setLatLng([
+                driverLocation.lat,
+                driverLocation.lng
+            ]);
+
+        },
+
+        function(){
+
+            console.log(
+                "Using Demo GPS Location"
+            );
+
+        },
+
+        {
+            enableHighAccuracy:true,
+            maximumAge:0,
+            timeout:5000
+        }
+
+    );
+
+}
+
+/* ==========================================================
+   DRAW ROUTE
+========================================================== */
+
+function drawRide(){
+
+    if(!currentRide) return;
+
+    if(routeLine){
+
+        map.removeLayer(routeLine);
+
+    }
+
+    if(riderMarker){
+
+        map.removeLayer(riderMarker);
+
+    }
+
+    if(destinationMarker){
+
+        map.removeLayer(destinationMarker);
+
+    }
+
+    riderMarker =
+    L.marker([
+        currentRide.pickupLat,
+        currentRide.pickupLng
+    ])
+    .addTo(map)
+    .bindPopup("📍 Pickup");
+
+    destinationMarker =
+    L.marker([
+        currentRide.destLat,
+        currentRide.destLng
+    ])
+    .addTo(map)
+    .bindPopup("🏁 Destination");
+
+    routeLine =
+    L.polyline(
+
+        [
+
+            [
+                driverLocation.lat,
+                driverLocation.lng
+            ],
+
+            [
+                currentRide.pickupLat,
+                currentRide.pickupLng
+            ],
+
+            [
+                currentRide.destLat,
+                currentRide.destLng
+            ]
+
+        ],
+
+        {
+            color:"blue",
+            weight:5
+        }
+
+    ).addTo(map);
+
+    map.fitBounds(
+        routeLine.getBounds(),
+        {
+            padding:[40,40]
+        }
+    );
+
+}
+
+/* ==========================================================
+   RANDOM RIDE GENERATOR
+========================================================== */
+
+function generateRide(){
+
+    if(rideAccepted) return;
+
+    currentRide =
+    rideRequests[
+        Math.floor(
+            Math.random() *
+            rideRequests.length
+        )
+    ];
+
+    requestRider.textContent =
+    currentRide.rider;
+
+    requestPickup.textContent =
+    currentRide.pickup;
+
+    requestDestination.textContent =
+    currentRide.destination;
+
+    requestVehicle.textContent =
+    currentRide.vehicle;
+
+    requestFare.textContent =
+    currentRide.fare;
+
+    document.getElementById(
+        "mapPickup"
+    ).textContent =
+    currentRide.pickup;
+
+    document.getElementById(
+        "mapDestination"
+    ).textContent =
+    currentRide.destination;
+
+    document.getElementById(
+        "mapDistance"
+    ).textContent =
+    currentRide.distance;
+
+    console.log(
+        "📢 New Ride Request"
+    );
+
+}
+
+setInterval(
+    generateRide,
+    15000
+);
+
+generateRide();
+
+console.log("✅ Driver.js Part 1 Loaded");
+/* ===========================================
+   BUTTON EVENTS
+=========================================== */
+
+const toggleStatusBtn=document.getElementById("toggleStatus");
+const acceptRideBtn=document.getElementById("acceptRide");
+const rejectRideBtn=document.getElementById("rejectRide");
+const startRideBtn=document.getElementById("startRide");
+const completeRideBtn=document.getElementById("completeRide");
+
+const centerMapBtn=document.getElementById("centerMap");
+const routeBtn=document.getElementById("routeButton");
+const clearMapBtn=document.getElementById("clearMap");
+
+const fuelBtn=document.getElementById("fuelButton");
+
+const supportBtn=document.getElementById("supportButton");
+const documentsBtn=document.getElementById("documentsButton");
+const settingsBtn=document.getElementById("settingsButton");
+
+const sosBtn=document.getElementById("sosButton");
+const shareBtn=document.getElementById("shareLocationButton");
+const stopRideBtn=document.getElementById("stopRideButton");
+
+
+/* ===========================================
+   ONLINE / OFFLINE
+=========================================== */
+
+let online=true;
+
+toggleStatusBtn.onclick=function(){
+
+online=!online;
+
+if(online){
+
+driverStatusText.innerHTML="Online";
+driverStatusDescription.innerHTML="You are available for rides";
+toggleStatusBtn.innerHTML="Go Offline";
+
+mapStatus.innerHTML="Waiting for Ride";
+
+}
+
+else{
+
+driverStatusText.innerHTML="Offline";
+driverStatusDescription.innerHTML="You won't receive rides";
+toggleStatusBtn.innerHTML="Go Online";
+
+mapStatus.innerHTML="Offline";
+
+}
+
+};
+
+
+/* ===========================================
+   ACCEPT RIDE
+=========================================== */
+
+acceptRideBtn.onclick=function(){
+
+currentRide=requests[Math.floor(Math.random()*requests.length)];
+
+document.getElementById("requestRider").innerHTML=currentRide.rider;
+document.getElementById("requestPickup").innerHTML=currentRide.pickup;
+document.getElementById("requestDestination").innerHTML=currentRide.destination;
+document.getElementById("requestVehicle").innerHTML=currentRide.vehicle;
+document.getElementById("requestFare").innerHTML=currentRide.fare;
+
+document.getElementById("currentRider").innerHTML=currentRide.rider;
+document.getElementById("currentPickup").innerHTML=currentRide.pickup;
+document.getElementById("currentDestination").innerHTML=currentRide.destination;
+document.getElementById("currentDistance").innerHTML=currentRide.distance+" km";
+document.getElementById("currentEta").innerHTML=currentRide.time;
+document.getElementById("currentStatus").innerHTML="Ride Accepted";
+
+document.getElementById("mapPickup").innerHTML=currentRide.pickup;
+document.getElementById("mapDestination").innerHTML=currentRide.destination;
+document.getElementById("mapDistance").innerHTML=currentRide.distance+" km";
+document.getElementById("mapStatus").innerHTML="Accepted";
+
+alert("Ride Accepted!");
+
+};
+/* ===========================================
+   LEAFLET LIVE MAP
+=========================================== */
+
+let driverMap;
+let driverMarker;
+let pickupMarker;
+let destinationMarker;
+let routeLine;
+
+const defaultLocation=[17.3850,78.4867]; // Hyderabad
+
+driverMap=L.map("driverMap").setView(defaultLocation,13);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+    attribution:"© OpenStreetMap"
+}).addTo(driverMap);
+
+driverMarker=L.marker(defaultLocation)
+.addTo(driverMap)
+.bindPopup("Driver Location")
+.openPopup();
+
+
+/* ===========================================
+   LIVE DRIVER LOCATION
+=========================================== */
+
+if(navigator.geolocation){
+
+    navigator.geolocation.watchPosition(function(position){
+
+        const lat=position.coords.latitude;
+        const lng=position.coords.longitude;
+
+        driverMarker.setLatLng([lat,lng]);
+
+        driverMap.panTo([lat,lng]);
+
+    },function(){
+
+        console.log("Location permission denied.");
+
+    },{
+
+        enableHighAccuracy:true
+
+    });
+
+}
+
+
+/* ===========================================
+   CENTER MAP
+=========================================== */
+
+centerMapBtn.onclick=function(){
+
+    driverMap.setView(driverMarker.getLatLng(),15);
+
+};
+
+
+/* ===========================================
+   SHOW ROUTE
+=========================================== */
+
+routeBtn.onclick=function(){
+
+    if(!currentRide){
+
+        alert("Accept a ride first.");
+
+        return;
+
+    }
+
+    if(pickupMarker)driverMap.removeLayer(pickupMarker);
+    if(destinationMarker)driverMap.removeLayer(destinationMarker);
+    if(routeLine)driverMap.removeLayer(routeLine);
+
+    const driver=driverMarker.getLatLng();
+
+    const pickup=[
+        driver.lat+0.015,
+        driver.lng+0.010
+    ];
+
+    const destination=[
+        driver.lat+0.035,
+        driver.lng+0.025
+    ];
+
+    pickupMarker=L.marker(pickup)
+        .addTo(driverMap)
+        .bindPopup("Pickup");
+
+    destinationMarker=L.marker(destination)
+        .addTo(driverMap)
+        .bindPopup("Destination");
+
+    routeLine=L.polyline(
+        [
+            [driver.lat,driver.lng],
+            pickup,
+            destination
+        ],
+        {
+            color:"blue",
+            weight:5
+        }
+    ).addTo(driverMap);
+
+    driverMap.fitBounds(routeLine.getBounds());
+
+    document.getElementById("mapStatus").innerHTML="Navigation Started";
+
+};
+
+
+/* ===========================================
+   CLEAR MAP
+=========================================== */
+
+clearMapBtn.onclick=function(){
+
+    if(pickupMarker)
+        driverMap.removeLayer(pickupMarker);
+
+    if(destinationMarker)
+        driverMap.removeLayer(destinationMarker);
+
+    if(routeLine)
+        driverMap.removeLayer(routeLine);
+
+    document.getElementById("mapStatus").innerHTML="Waiting for Ride";
+
+};
+
+
+/* ===========================================
+   MAP RESIZE FIX
+=========================================== */
+
+setTimeout(function(){
+
+    driverMap.invalidateSize();
+
+},600);
+/* ===========================================
+   START RIDE
+=========================================== */
+
+let rideStarted = false;
+
+startRideBtn.onclick = function () {
+
+    if (!currentRide) {
+        alert("Accept a ride first.");
+        return;
+    }
+
+    if (rideStarted) {
+        alert("Ride already started.");
+        return;
+    }
+
+    rideStarted = true;
+
+    currentStatus.innerHTML = "Ride in Progress";
+    mapStatus.innerHTML = "Driving to Destination";
+
+    notification("Ride Started Successfully");
+
+    document.querySelector(".notifications").insertAdjacentHTML(
+        "afterbegin",
+        `<div class="notification">
+            🚖 Ride started for ${currentRide.rider}
+        </div>`
+    );
+
+};
+
+
+/* ===========================================
+   COMPLETE RIDE
+=========================================== */
+
+completeRideBtn.onclick = function () {
+
+    if (!rideStarted) {
+        alert("Start the ride first.");
+        return;
+    }
+
+    rideStarted = false;
+
+    completedRides++;
+
+    todayEarnings += currentRide.fare;
+
+    distanceTravelled += currentRide.distance;
+
+    completedRidesText.innerHTML = completedRides;
+
+    todayEarningsText.innerHTML = "₹" + todayEarnings;
+
+    distanceTravelledText.innerHTML = distanceTravelled + " km";
+
+    currentStatus.innerHTML = "Ride Completed";
+
+    mapStatus.innerHTML = "Waiting for Ride";
+
+    notification("Ride Completed");
+
+    addHistoryRow(currentRide);
+
+    document.querySelector(".notifications").insertAdjacentHTML(
+        "afterbegin",
+        `<div class="notification">
+            ✅ Ride completed. ₹${currentRide.fare} credited.
+        </div>`
+    );
+
+    currentRide = null;
+
+};
+
+
+/* ===========================================
+   HISTORY TABLE
+=========================================== */
+
+function addHistoryRow(ride){
+
+    const tr=document.createElement("tr");
+
+    const today=new Date();
+
+    tr.innerHTML=`
+
+        <td>${today.toLocaleDateString()}</td>
+
+        <td>1</td>
+
+        <td>₹${ride.fare}</td>
+
+        <td>Completed</td>
+
+    `;
+
+    earningsTable.prepend(tr);
+
+}
+
+
+/* ===========================================
+   SMALL POPUP
+=========================================== */
+
+function notification(message){
+
+    const box=document.createElement("div");
+
+    box.innerHTML=message;
+
+    box.style.position="fixed";
+    box.style.right="20px";
+    box.style.bottom="20px";
+    box.style.background="#16a34a";
+    box.style.color="#fff";
+    box.style.padding="15px 25px";
+    box.style.borderRadius="12px";
+    box.style.fontWeight="600";
+    box.style.zIndex="99999";
+    box.style.boxShadow="0 10px 30px rgba(0,0,0,.3)";
+
+    document.body.appendChild(box);
+
+    setTimeout(function(){
+
+        box.remove();
+
+    },3000);
+
+}
+
+
+/* ===========================================
+   AUTO UPDATE STATS
+=========================================== */
+
+setInterval(function(){
+
+    if(rideStarted){
+
+        distanceTravelled++;
+
+        distanceTravelledText.innerHTML=
+        distanceTravelled+" km";
+
+    }
+
+},10000);
+/* ===========================================
+   FUEL MONITORING SYSTEM
+=========================================== */
+
+let fuel = 75;
+
+function updateFuel(){
+
+    document.getElementById("fuelPercentage").innerHTML = fuel + "%";
+
+    document.getElementById("fuelRange").innerHTML = fuel * 4;
+
+    document.getElementById("fuelLevel").style.width = fuel + "%";
+
+    if(fuel > 60){
+
+        document.getElementById("fuelLevel").style.background = "#22c55e";
+
+    }
+    else if(fuel > 30){
+
+        document.getElementById("fuelLevel").style.background = "#f59e0b";
+
+    }
+    else{
+
+        document.getElementById("fuelLevel").style.background = "#ef4444";
+
+    }
+
+}
+
+updateFuel();
+
+setInterval(function(){
+
+    if(rideStarted){
+
+        fuel--;
+
+        if(fuel < 0) fuel = 0;
+
+        updateFuel();
+
+        if(fuel == 20){
+
+            notification("⚠ Fuel Low. Please refill.");
+
+        }
+
+    }
+
+},15000);
+
+
+
+/* ===========================================
+   CHECK FUEL BUTTON
+=========================================== */
+
+fuelButton.onclick = function(){
+
+    alert(
+        "Fuel Remaining : " + fuel + "%\n" +
+        "Estimated Range : " + (fuel*4) + " km"
+    );
+
+};
+
+
+
+/* ===========================================
+   SHARE LOCATION
+=========================================== */
+
+shareLocationButton.onclick = function(){
+
+    if(!navigator.geolocation){
+
+        alert("Location not supported.");
+
+        return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(function(position){
+
+        const lat = position.coords.latitude;
+
+        const lng = position.coords.longitude;
+
+        const link =
+        "https://www.google.com/maps?q=" +
+        lat + "," + lng;
+
+        navigator.clipboard.writeText(link);
+
+        notification("Location copied to clipboard.");
+
+    });
+
+};
+
+
+
+/* ===========================================
+   SOS BUTTON
+=========================================== */
+
+sosButton.onclick = function(){
+
+    notification("🚨 SOS Alert Sent");
+
+    document.querySelector(".notifications")
+    .insertAdjacentHTML(
+        "afterbegin",
+        `<div class="notification">
+            🚨 Emergency SOS sent to Admin.
+        </div>`
+    );
+
+};
+
+
+
+/* ===========================================
+   STOP CURRENT RIDE
+=========================================== */
+
+stopRideButton.onclick = function(){
+
+    if(!rideStarted){
+
+        alert("No active ride.");
+
+        return;
+
+    }
+
+    if(confirm("Stop current ride?")){
+
+        rideStarted = false;
+
+        currentStatus.innerHTML = "Ride Cancelled";
+
+        mapStatus.innerHTML = "Waiting for Ride";
+
+        notification("Ride Stopped");
+
+    }
+
+};
+
+
+
+/* ===========================================
+   SUPPORT BUTTON
+=========================================== */
+
+supportButton.onclick = function(){
+
+    alert(
+`RideShare Driver Support
+
+Phone : +91 1800-123-456
+
+Email :
+support@rideshare.com`
+
+    );
+
+};
+
+
+
+/* ===========================================
+   DOCUMENTS
+=========================================== */
+
+documentsButton.onclick = function(){
+
+    alert(
+`Driver Documents
+
+✔ Driving License
+
+✔ Vehicle RC
+
+✔ Insurance
+
+✔ Pollution Certificate`
+
+    );
+
+};
+
+
+
+/* ===========================================
+   SETTINGS
+=========================================== */
+
+settingsButton.onclick = function(){
+
+    alert(
+`Driver Settings
+
+✔ Notifications
+
+✔ Navigation
+
+✔ Language
+
+✔ Dark Mode
+
+✔ Logout`
+
+    );
+
+};
+/* ===========================================
+   LIVE RIDE REQUEST SIMULATION
+=========================================== */
+
+const riders = [
+    {
+        rider: "Arjun Kumar",
+        pickup: "Hitech City",
+        destination: "Gachibowli",
+        vehicle: "Sedan",
+        fare: 320,
+        distance: 8
+    },
+    {
+        rider: "Karthik Reddy",
+        pickup: "Madhapur",
+        destination: "Kukatpally",
+        vehicle: "SUV",
+        fare: 410,
+        distance: 12
+    },
+    {
+        rider: "Vikram Singh",
+        pickup: "Ameerpet",
+        destination: "Banjara Hills",
+        vehicle: "Mini",
+        fare: 250,
+        distance: 6
+    },
+    {
+        rider: "Rahul Verma",
+        pickup: "Begumpet",
+        destination: "Airport",
+        vehicle: "Prime",
+        fare: 620,
+        distance: 28
+    },
+    {
+        rider: "Suresh Kumar",
+        pickup: "LB Nagar",
+        destination: "Charminar",
+        vehicle: "Auto",
+        fare: 180,
+        distance: 5
+    }
+];
+
+function generateRide() {
+
+    if (currentRide || rideStarted) return;
+
+    const ride = riders[
+        Math.floor(Math.random() * riders.length)
+    ];
+
+    currentRide = { ...ride };
+
+    requestRider.innerHTML = ride.rider;
+    requestPickup.innerHTML = ride.pickup;
+    requestDestination.innerHTML = ride.destination;
+    requestVehicle.innerHTML = ride.vehicle;
+    requestFare.innerHTML = ride.fare;
+
+    mapPickup.innerHTML = ride.pickup;
+    mapDestination.innerHTML = ride.destination;
+
+    currentRider.innerHTML = ride.rider;
+    currentPickup.innerHTML = ride.pickup;
+    currentDestination.innerHTML = ride.destination;
+    currentDistance.innerHTML = ride.distance + " km";
+    currentEta.innerHTML = (ride.distance * 3) + " mins";
+    currentStatus.innerHTML = "Waiting for Acceptance";
+
+    notification("🚖 New Ride Request");
+
+}
+
+setInterval(generateRide, 45000);
+
+
+
+/* ===========================================
+   ACCEPT RIDE
+=========================================== */
+
+acceptRideBtn.onclick = function () {
+
+    if (!currentRide) {
+
+        alert("No ride request available.");
+
+        return;
+
+    }
+
+    currentStatus.innerHTML = "Ride Accepted";
+
+    mapStatus.innerHTML = "Driver Heading to Pickup";
+
+    notification("Ride Accepted");
+
+    if(routeBtn){
+        routeBtn.click();
+    }
+
+};
+
+
+
+/* ===========================================
+   REJECT RIDE
+=========================================== */
+
+rejectRideBtn.onclick = function () {
+
+    if (!currentRide) {
+
+        alert("No ride request.");
+
+        return;
+
+    }
+
+    notification("Ride Rejected");
+
+    currentRide = null;
+
+    requestRider.innerHTML = "Waiting for rider...";
+    requestPickup.innerHTML = "--";
+    requestDestination.innerHTML = "--";
+    requestVehicle.innerHTML = "--";
+    requestFare.innerHTML = "--";
+
+    currentRider.innerHTML = "No active ride";
+    currentPickup.innerHTML = "--";
+    currentDestination.innerHTML = "--";
+    currentDistance.innerHTML = "--";
+    currentEta.innerHTML = "--";
+    currentStatus.innerHTML = "Waiting";
+
+    mapPickup.innerHTML = "Waiting...";
+    mapDestination.innerHTML = "Waiting...";
+    mapStatus.innerHTML = "Waiting for Ride";
+
+};
+
+
+
+/* ===========================================
+   AUTO FIRST REQUEST
+=========================================== */
+
+setTimeout(generateRide,3000);
+/* ===========================================
+   PASSENGER RATING SYSTEM
+=========================================== */
+
+function addPassengerRating() {
+
+    const names = [
+        "Arjun",
+        "Rahul",
+        "Karthik",
+        "Vikram",
+        "Suresh",
+        "Rohit",
+        "Abhishek"
+    ];
+
+    const reviews = [
+        "Excellent driving and safe ride.",
+        "Very polite driver.",
+        "Reached on time.",
+        "Clean vehicle and smooth driving.",
+        "Highly recommended.",
+        "Professional and friendly.",
+        "Comfortable journey."
+    ];
+
+    const stars = [
+        "⭐⭐⭐⭐⭐",
+        "⭐⭐⭐⭐⭐",
+        "⭐⭐⭐⭐",
+        "⭐⭐⭐⭐⭐"
+    ];
+
+    const card = document.createElement("div");
+    card.className = "review-card";
+
+    card.innerHTML = `
+        <h3>${names[Math.floor(Math.random()*names.length)]}</h3>
+        <p>${stars[Math.floor(Math.random()*stars.length)]}</p>
+        <p>${reviews[Math.floor(Math.random()*reviews.length)]}</p>
+    `;
+
+    document.querySelector(".reviews").appendChild(card);
+
+}
+
+
+/* ===========================================
+   SAVE DATA
+=========================================== */
+
+function saveDriverData(){
+
+    localStorage.setItem("driverCompleted",completedRides);
+
+    localStorage.setItem("driverEarnings",todayEarnings);
+
+    localStorage.setItem("driverDistance",distanceTravelled);
+
+    localStorage.setItem("driverFuel",fuel);
+
+}
+
+
+/* ===========================================
+   LOAD DATA
+=========================================== */
+
+function loadDriverData(){
+
+    completedRides =
+        Number(localStorage.getItem("driverCompleted")) || completedRides;
+
+    todayEarnings =
+        Number(localStorage.getItem("driverEarnings")) || todayEarnings;
+
+    distanceTravelled =
+        Number(localStorage.getItem("driverDistance")) || distanceTravelled;
+
+    fuel =
+        Number(localStorage.getItem("driverFuel")) || fuel;
+
+    completedRidesText.innerHTML = completedRides;
+
+    todayEarningsText.innerHTML = "₹"+todayEarnings;
+
+    distanceTravelledText.innerHTML = distanceTravelled+" km";
+
+    updateFuel();
+
+}
+
+loadDriverData();
+
+
+/* ===========================================
+   AUTO SAVE
+=========================================== */
+
+setInterval(saveDriverData,5000);
+
+
+/* ===========================================
+   COMPLETE RIDE EXTRA
+=========================================== */
+
+const oldCompleteRide = completeRideBtn.onclick;
+
+completeRideBtn.onclick = function(){
+
+    oldCompleteRide();
+
+    addPassengerRating();
+
+    saveDriverData();
+
+};
+
+
+/* ===========================================
+   DARK MODE
+=========================================== */
+
+let dark=false;
+
+settingsButton.addEventListener("dblclick",function(){
+
+    dark=!dark;
+
+    if(dark){
+
+        document.body.style.background="#0f172a";
+
+        document.body.style.color="#fff";
+
+        notification("Dark Mode Enabled");
+
+    }
+
+    else{
+
+        document.body.style.background="#f4f6fb";
+
+        document.body.style.color="#111";
+
+        notification("Light Mode Enabled");
+
+    }
+
+});
+
+
+/* ===========================================
+   LIVE NOTIFICATIONS
+=========================================== */
+
+setInterval(function(){
+
+    const msgs=[
+
+        "⭐ Passenger gave 5-Star rating.",
+
+        "🚗 New peak-hour bonus available.",
+
+        "💰 Wallet updated.",
+
+        "📢 Admin announcement received.",
+
+        "⚙ Vehicle inspection reminder."
+
+    ];
+
+    const div=document.createElement("div");
+
+    div.className="notification";
+
+    div.innerHTML=
+        msgs[Math.floor(Math.random()*msgs.length)];
+
+    document.querySelector(".notifications")
+            .prepend(div);
+
+},60000);
+/* ===========================================
+   PART 8
+   FINAL MAP + GPS + INITIALIZATION
+=========================================== */
+
+/* ---------- LIVE DRIVER MOVEMENT ---------- */
+
+let moveTimer = null;
+
+function startDriverMovement() {
+
+    if (!driverMarker) return;
+
+    if (moveTimer) clearInterval(moveTimer);
+
+    moveTimer = setInterval(() => {
+
+        const lat =
+            driverMarker.getLatLng().lat +
+            ((Math.random() - 0.5) * 0.002);
+
+        const lng =
+            driverMarker.getLatLng().lng +
+            ((Math.random() - 0.5) * 0.002);
+
+        driverMarker.setLatLng([lat, lng]);
+
+        driverMap.panTo([lat, lng], {
+            animate: true
+        });
+
+    }, 3000);
+
+}
+
+
+/* ---------- CENTER MAP ---------- */
+
+centerMap.onclick = function () {
+
+    if (driverMarker) {
+
+        driverMap.setView(
+            driverMarker.getLatLng(),
+            15
+        );
+
+        notification("Map Centered");
+
+    }
+
+};
+
+
+/* ---------- DRAW ROUTE ---------- */
+
+routeButton.onclick = function () {
+
+    if (!pickupMarker || !destinationMarker) {
+
+        alert("Accept a ride first.");
+
+        return;
+
+    }
+
+    if (window.routeLine) {
+
+        driverMap.removeLayer(window.routeLine);
+
+    }
+
+    window.routeLine = L.polyline(
+        [
+            pickupMarker.getLatLng(),
+            destinationMarker.getLatLng()
+        ],
+        {
+            color: "#2563eb",
+            weight: 5
+        }
+    ).addTo(driverMap);
+
+    driverMap.fitBounds(
+        window.routeLine.getBounds()
+    );
+
+    notification("Route Displayed");
+
+};
+
+
+/* ---------- CLEAR MAP ---------- */
+
+clearMap.onclick = function () {
+
+    if (pickupMarker)
+        driverMap.removeLayer(pickupMarker);
+
+    if (destinationMarker)
+        driverMap.removeLayer(destinationMarker);
+
+    if (window.routeLine)
+        driverMap.removeLayer(window.routeLine);
+
+    pickupMarker = null;
+    destinationMarker = null;
+
+    mapPickup.innerHTML = "Waiting...";
+    mapDestination.innerHTML = "Waiting...";
+    mapDistance.innerHTML = "-- km";
+
+    notification("Map Cleared");
+
+};
+
+
+/* ---------- SHOW PICKUP & DESTINATION ---------- */
+
+function updateRideMap() {
+
+    if (!currentRide) return;
+
+    const driverPos = driverMarker.getLatLng();
+
+    const pickupLat =
+        driverPos.lat + 0.01;
+
+    const pickupLng =
+        driverPos.lng + 0.01;
+
+    const destLat =
+        pickupLat + 0.015;
+
+    const destLng =
+        pickupLng + 0.015;
+
+    if (pickupMarker)
+        driverMap.removeLayer(pickupMarker);
+
+    if (destinationMarker)
+        driverMap.removeLayer(destinationMarker);
+
+    pickupMarker = L.marker([
+        pickupLat,
+        pickupLng
+    ]).addTo(driverMap);
+
+    destinationMarker = L.marker([
+        destLat,
+        destLng
+    ]).addTo(driverMap);
+
+    pickupMarker.bindPopup(
+        "Pickup Location"
+    );
+
+    destinationMarker.bindPopup(
+        "Destination"
+    );
+
+    mapPickup.innerHTML =
+        currentRide.pickup;
+
+    mapDestination.innerHTML =
+        currentRide.destination;
+
+    mapDistance.innerHTML =
+        currentRide.distance + " km";
+
+}
+
+
+/* ---------- ACCEPT BUTTON ---------- */
+
+const oldAcceptRide = acceptRideBtn.onclick;
+
+acceptRideBtn.onclick = function () {
+
+    if (oldAcceptRide)
+        oldAcceptRide();
+
+    updateRideMap();
+
+    startDriverMovement();
+
+};
+
+
+/* ---------- GEOLOCATION ---------- */
+
+if (navigator.geolocation) {
+
+    navigator.geolocation.watchPosition(
+
+        function (pos) {
+
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            if (driverMarker) {
+
+                driverMarker.setLatLng([lat, lng]);
+
+            }
+
+        },
+
+        function () {
+
+            console.log("GPS unavailable");
+
+        }
+
+    );
+
+}
+
+
+/* ---------- PAGE LOAD ---------- */
+
+window.onload = function () {
+
+    updateFuel();
+
+    loadDriverData();
+
+    startDriverMovement();
+
+    notification("Driver Dashboard Ready");
+
+};
+
+
+/* ---------- AUTO SAVE ---------- */
+
+window.addEventListener("beforeunload", function () {
+
+    saveDriverData();
+
+});
+
+console.log("Driver Portal Loaded Successfully");

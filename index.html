@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideShare - Smart Ride Sharing System</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Project Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe, #f8fafc);
+            color: #1e293b;
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            color: #2563eb;
+            font-size: 25px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .header-button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .header-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 8%;
+            gap: 50px;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-content h1 {
+            font-size: 55px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero-content h1 span {
+            color: #2563eb;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+        }
+
+        .hero-buttons button {
+            padding: 15px 28px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: white;
+            color: #2563eb;
+            border: 2px solid #2563eb !important;
+        }
+
+        .secondary:hover {
+            background: #eff6ff;
+        }
+
+        .hero-icon {
+            width: 350px;
+            height: 350px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            flex-shrink: 0;
+        }
+
+        .hero-icon i {
+            font-size: 150px;
+            color: #2563eb;
+        }
+
+        /* DASHBOARDS */
+        .dashboard-section {
+            background: white;
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .dashboard-section h2 {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-section > p {
+            color: #64748b;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            padding: 40px 25px;
+            border-radius: 25px;
+            background: #f8fafc;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .dashboard-card i {
+            font-size: 55px;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card h3 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-card p {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-card button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .dashboard-card button:hover {
+            background: #1d4ed8;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 35px;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .feature {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .feature i {
+            font-size: 35px;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #64748b;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            color: #cbd5e1;
+            margin-top: 8px;
+        }
+
+        @media(max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero {
+                padding: 50px 5%;
+            }
+            .hero-content h1 {
+                font-size: 38px;
+            }
+            .hero-icon {
+                width: 250px;
+                height: 250px;
+            }
+            .hero-icon i {
+                font-size: 100px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">🚖 RideShare</a>
+        <div class="nav-links">
+            <a href="pages/about.html">About</a>
+            <a href="pages/contact.html">Contact</a>
+            <a href="pages/login.html" class="header-button">Login</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Smart <span>Ride Sharing</span> System 🚖</h1>
+            <p>
+                A complete ride-sharing prototype connecting Riders, Drivers, and Super Admin through one integrated system.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="rider/bookride.html">
+                    <button class="primary">
+                        <i class="fas fa-user"></i> Rider Portal
+                    </button>
+                </a>
+
+                <a href="driver/dashboard.html">
+                    <button class="primary">
+                        <i class="fas fa-car"></i> Driver Portal
+                    </button>
+                </a>
+
+                <a href="admin/dashboard.html">
+                    <button class="secondary">
+                        <i class="fas fa-user-shield"></i> Super Admin
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-icon">
+            <i class="fas fa-car-side"></i>
+        </div>
+    </section>
+
+    <!-- DASHBOARDS -->
+    <section class="dashboard-section">
+        <h2>Choose Your Portal</h2>
+        <p>Access the appropriate dashboard for the demonstration.</p>
+
+        <div class="dashboard-cards">
+            <!-- RIDER -->
+            <div class="dashboard-card">
+                <i class="fas fa-user"></i>
+                <h3>Rider Dashboard</h3>
+                <p>Book rides, track drivers, check fares, view ride history and offers.</p>
+                <a href="rider/bookride.html">
+                    <button>Open Rider</button>
+                </a>
+            </div>
+
+            <!-- DRIVER -->
+            <div class="dashboard-card">
+                <i class="fas fa-car"></i>
+                <h3>Driver Dashboard</h3>
+                <p>Accept ride requests, navigate to riders, monitor fuel, and manage trips.</p>
+                <a href="driver/dashboard.html">
+                    <button>Open Driver</button>
+                </a>
+            </div>
+
+            <!-- SUPER ADMIN -->
+            <div class="dashboard-card">
+                <i class="fas fa-user-shield"></i>
+                <h3>Super Admin</h3>
+                <p>Manage drivers, riders, admins, trips, analytics, reports, and system activity.</p>
+                <a href="admin/dashboard.html">
+                    <button>Open Admin</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <h2>System Features</h2>
+        <div class="feature-grid">
+            <div class="feature">
+                <i class="fas fa-location-dot"></i>
+                <h3>Live Tracking</h3>
+                <p>Monitor ride locations.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-route"></i>
+                <h3>Ride Matching</h3>
+                <p>Connect riders with drivers.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-wallet"></i>
+                <h3>Fare System</h3>
+                <p>Estimate ride fares.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>Analytics</h3>
+                <p>Monitor system performance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3>🚖 Smart Ride Sharing System</h3>
+        <p>Prototype Presentation Website</p>
+        <p>Developed by <b>Avula Udhay Kumar</b></p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

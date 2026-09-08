@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Super Admin | Smart RideShare</title>
+
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="fas fa-car-side"></i>
+        </div>
+
+        <div>
+            <h2>RideShare</h2>
+            <span>SUPER ADMIN</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <p class="nav-title">MAIN MENU</p>
+
+        <button class="nav-item active" data-section="dashboardSection">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-section="driversSection">
+            <i class="fas fa-id-card"></i>
+            <span>Drivers</span>
+        </button>
+
+        <button class="nav-item" data-section="adminsSection">
+            <i class="fas fa-user-shield"></i>
+            <span>Admins</span>
+        </button>
+
+        <button class="nav-item" data-section="ridersSection">
+            <i class="fas fa-users"></i>
+            <span>Riders</span>
+        </button>
+
+        <button class="nav-item" data-section="ridesSection">
+            <i class="fas fa-route"></i>
+            <span>Trips</span>
+        </button>
+
+        <p class="nav-title">SYSTEM</p>
+
+        <button class="nav-item" data-section="reportsSection">
+            <i class="fas fa-chart-pie"></i>
+            <span>Reports</span>
+        </button>
+
+        <button class="nav-item" data-section="logsSection">
+            <i class="fas fa-clock-rotate-left"></i>
+            <span>Activity Logs</span>
+        </button>
+
+        <button class="nav-item" data-section="settingsSection">
+            <i class="fas fa-sliders"></i>
+            <span>Settings</span>
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <button id="darkModeBtn" class="sidebar-action">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+        </button>
+
+        <button id="logoutBtn" class="sidebar-action logout">
+            <i class="fas fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOP HEADER -->
+
+    <header class="topbar">
+
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="page-heading">
+
+            <h1 id="pageTitle">
+                Dashboard
+            </h1>
+
+            <p id="pageSubtitle">
+                Monitor and manage your complete RideShare platform.
+            </p>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+            <button class="icon-button" id="refreshBtn" title="Refresh">
+
+                <i class="fas fa-rotate"></i>
+
+            </button>
+
+
+            <button class="icon-button" id="notificationBtn" title="Notifications">
+
+                <i class="fas fa-bell"></i>
+
+                <span class="notification-dot"></span>
+
+            </button>
+
+
+            <div class="profile">
+
+                <div class="profile-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+
+                <div class="profile-info">
+
+                    <strong id="adminName">
+                        Super Admin
+                    </strong>
+
+                    <span>
+                        System Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section id="dashboardSection" class="page-section active-section">
+
+        <div class="welcome-banner">
+
+            <div>
+
+                <span class="welcome-label">
+                    SYSTEM OVERVIEW
+                </span>
+
+                <h2>
+                    Welcome back, Super Admin 👑
+                </h2>
+
+                <p>
+                    Here's what's happening across your RideShare platform.
+                </p>
+
+            </div>
+
+            <div class="welcome-icon">
+                <i class="fas fa-car-side"></i>
+            </div>
+
+        </div>
+
+
+        <!-- STAT CARDS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    <i class="fas fa-users"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Total Users</span>
+
+                    <strong id="totalUsers">
+                        0
+                    </strong>
+
+                    <small>
+                        Registered accounts
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="fas fa-id-card"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Total Drivers</span>
+
+                    <strong id="totalDrivers">
+                        0
+                    </strong>
+
+                    <small>
+                        Driver accounts
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="fas fa-route"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Total Trips</span>
+
+                    <strong id="totalRides">
+                        0
+                    </strong>
+
+                    <small>
+                        Ride requests
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    <i class="fas fa-file-lines"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>System Logs</span>
+
+                    <strong id="totalLogs">
+                        0
+                    </strong>
+
+                    <small>
+                        Recorded activities
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECONDARY STATS -->
+
+        <div class="mini-stats">
+
+            <div class="mini-card">
+
+                <div class="mini-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+
+                <div>
+                    <span>Active Users</span>
+                    <strong id="activeUsers">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+
+                <div>
+                    <span>Notifications</span>
+                    <strong id="totalNotifications">3</strong>
+                </div>
+
+            </div>
+
+
+            <div class="mini-card">
+
+                <div class="mini-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+
+                <div>
+                    <span>Server Status</span>
+                    <strong class="status-online">
+                        Online
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHART + ACTIVITY -->
+
+        <div class="dashboard-grid">
+
+            <div class="panel chart-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Platform Activity
+                        </h3>
+
+                        <p>
+                            Current database overview
+                        </p>
+
+                    </div>
+
+                    <span class="live-badge">
+                        <i class="fas fa-circle"></i>
+                        LIVE
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="activityChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+                        <p>
+                            Latest system events
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="text-button"
+                        data-section-link="logsSection"
+                    >
+                        View All
+                    </button>
+
+                </div>
+
+
+                <div id="recentActivity" class="activity-list">
+
+                    <div class="empty-state">
+
+                        <i class="fas fa-spinner fa-spin"></i>
+
+                        <p>
+                            Loading activities...
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         DRIVERS
+    ================================================== -->
+
+    <section id="driversSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Driver Management
+                </h2>
+
+                <p>
+                    Manage registered drivers, suspend accounts, and send official notices.
+                </p>
+
+            </div>
+
+            <button id="addDriverBtn" class="primary-button">
+
+                <i class="fas fa-plus"></i>
+
+                Add Driver
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-toolbar">
+
+                <input
+                    type="search"
+                    id="driverSearch"
+                    placeholder="Search drivers..."
+                >
+
+                <button id="refreshDriversBtn" class="secondary-button">
+
+                    <i class="fas fa-rotate"></i>
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="driversTableBody">
+
+                        <tr>
+
+                            <td colspan="6" class="table-loading">
+                                Loading drivers...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ADMINS
+    ================================================== -->
+
+    <section id="adminsSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Admin Management
+                </h2>
+
+                <p>
+                    Manage administrator accounts and permissions.
+                </p>
+
+            </div>
+
+            <button id="addAdminBtn" class="primary-button">
+
+                <i class="fas fa-user-plus"></i>
+
+                Add Admin
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-toolbar">
+
+                <input
+                    type="search"
+                    id="adminSearch"
+                    placeholder="Search administrators..."
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="adminsTableBody">
+
+                        <tr>
+
+                            <td colspan="6" class="table-loading">
+                                Loading admins...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RIDERS
+    ================================================== -->
+
+    <section id="ridersSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Rider Management
+                </h2>
+
+                <p>
+                    View and manage rider accounts.
+                </p>
+
+            </div>
+
+            <button id="addRiderBtn" class="primary-button">
+
+                <i class="fas fa-user-plus"></i>
+
+                Add Rider
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-toolbar">
+
+                <input
+                    type="search"
+                    id="riderSearch"
+                    placeholder="Search riders..."
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="ridersTableBody">
+
+                        <tr>
+
+                            <td colspan="6" class="table-loading">
+                                Loading riders...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RIDES
+    ================================================== -->
+
+    <section id="ridesSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Trip Management
+                </h2>
+
+                <p>
+                    Monitor all ride requests and trip activity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Ride ID</th>
+                            <th>Rider</th>
+                            <th>Driver</th>
+                            <th>Pickup</th>
+                            <th>Destination</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="ridesTableBody">
+
+                        <tr>
+
+                            <td colspan="6" class="table-loading">
+                                Loading rides...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         REPORTS
+    ================================================== -->
+
+    <section id="reportsSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Reports & Analytics
+                </h2>
+
+                <p>
+                    Review platform statistics and operational data.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    <i class="fas fa-users"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Users</span>
+
+                    <strong id="reportUsers">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="fas fa-car"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Drivers</span>
+
+                    <strong id="reportDrivers">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="fas fa-route"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Trips</span>
+
+                    <strong id="reportRides">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    <i class="fas fa-list"></i>
+                </div>
+
+                <div class="stat-info">
+
+                    <span>Logs</span>
+
+                    <strong id="reportLogs">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h3>
+                        System Statistics
+                    </h3>
+
+                    <p>
+                        Data retrieved from the system state.
+                    </p>
+
+                </div>
+
+                <button
+                    id="exportReportBtn"
+                    class="secondary-button"
+                >
+                    <i class="fas fa-download"></i>
+                    Export Report
+                </button>
+
+            </div>
+
+            <div class="report-summary" id="reportSummary" style="padding:15px; font-size: 14px; line-height: 1.8;">
+
+                Loading report...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LOGS
+    ================================================== -->
+
+    <section id="logsSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Activity Logs
+                </h2>
+
+                <p>
+                    Monitor system activity and administrator actions.
+                </p>
+
+            </div>
+
+            <button id="refreshLogsBtn" class="secondary-button">
+
+                <i class="fas fa-rotate"></i>
+
+                Refresh Logs
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-toolbar">
+
+                <input
+                    type="search"
+                    id="logSearch"
+                    placeholder="Search activity logs..."
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Time</th>
+                            <th>Action</th>
+                            <th>User</th>
+                            <th>Description</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="logsTableBody">
+
+                        <tr>
+
+                            <td colspan="4" class="table-loading">
+                                Loading logs...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
+
+    <section id="settingsSection" class="page-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    System Settings
+                </h2>
+
+                <p>
+                    Configure your RideShare platform.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+
+                <div>
+
+                    <h3>Appearance</h3>
+
+                    <p>
+                        Switch between light and dark mode.
+                    </p>
+
+                </div>
+
+                <button id="settingsDarkMode" class="secondary-button">
+                    Toggle Theme
+                </button>
+
+            </div>
+
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+
+                <div>
+
+                    <h3>Database</h3>
+
+                    <p>
+                        Check the current backend database status.
+                    </p>
+
+                </div>
+
+                <button id="databaseStatusBtn" class="secondary-button">
+                    Check Status
+                </button>
+
+            </div>
+
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <div>
+
+                    <h3>Security</h3>
+
+                    <p>
+                        Review your administrator security settings.
+                    </p>
+
+                </div>
+
+                <button id="securityBtn" class="secondary-button">
+                    Security
+                </button>
+
+            </div>
+
+
+            <div class="settings-card">
+
+                <div class="settings-icon">
+                    <i class="fas fa-file-export"></i>
+                </div>
+
+                <div>
+
+                    <h3>Backup</h3>
+
+                    <p>
+                        Export a local snapshot of available dashboard data.
+                    </p>
+
+                </div>
+
+                <button id="backupBtn" class="secondary-button">
+                    Backup
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div id="modalOverlay" class="modal-overlay" style="display:none;">
+
+    <div class="modal">
+
+        <button id="closeModal" class="modal-close">
+            <i class="fas fa-xmark"></i>
+        </button>
+
+        <h2 id="modalTitle">
+            Add Record
+        </h2>
+
+        <div id="modalBody"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div id="toast" class="toast">
+
+    <i class="fas fa-circle-check"></i>
+
+    <span id="toastMessage">
+        Done
+    </span>
+
+</div>
+
+
+<script src="../assets/js/shared-state.js"></script>
+
+<!-- Integrated Super Admin Event Handling Logic -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    "use strict";
+
+    let activityChart = null;
+
+    function getStoredData(key, fallback) {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : fallback;
+    }
+
+    function setStoredData(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    // Initialize Persistent Datasets
+    let drivers = getStoredData("admin_drivers", [
+        { id: "DRV-101", name: "Vikram Singh", email: "vikram@rideshare.com", phone: "+91 9876543210", status: "Active" },
+        { id: "DRV-102", name: "Anil Kumar", email: "anil@rideshare.com", phone: "+91 9876543211", status: "Active" },
+        { id: "DRV-103", name: "Suresh Reddy", email: "suresh@rideshare.com", phone: "+91 9876543212", status: "Suspended" }
+    ]);
+
+    let admins = getStoredData("admin_admins", [
+        { id: "ADM-01", name: "Super Admin", email: "admin@rideshare.com", phone: "+91 9999988888", status: "Active" },
+        { id: "ADM-02", name: "Operations Lead", email: "ops@rideshare.com", phone: "+91 9999977777", status: "Active" }
+    ]);
+
+    let riders = getStoredData("admin_riders", [
+        { id: "RDR-501", name: "Rahul Sharma", email: "rahul@example.com", phone: "+91 9123456789", status: "Active" },
+        { id: "RDR-502", name: "Priya Patel", email: "priya@example.com", phone: "+91 9123456790", status: "Active" }
+    ]);
+
+    let logs = getStoredData("admin_logs", [
+        { time: new Date().toLocaleTimeString(), action: "SYSTEM", user: "Super Admin", description: "Dashboard loaded successfully" }
+    ]);
+
+    setStoredData("admin_drivers", drivers);
+    setStoredData("admin_admins", admins);
+    setStoredData("admin_riders", riders);
+    setStoredData("admin_logs", logs);
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toastMessage");
+        if (toast && toastMessage) {
+            toastMessage.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3000);
+        } else {
+            alert(message);
+        }
+    }
+
+    // Modal Operations
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const closeModal = document.getElementById("closeModal");
+
+    function openModal(title, contentHtml) {
+        modalTitle.textContent = title;
+        modalBody.innerHTML = contentHtml;
+        modalOverlay.style.display = "flex";
+    }
+
+    if (closeModal) {
+        closeModal.addEventListener("click", () => {
+            modalOverlay.style.display = "none";
+        });
+    }
+
+    // Section Switcher
+    const navItems = document.querySelectorAll(".nav-item");
+    const sections = document.querySelectorAll(".page-section");
+    const pageTitle = document.getElementById("pageTitle");
+
+    function switchSection(sectionId) {
+        navItems.forEach(item => {
+            if (item.getAttribute("data-section") === sectionId) {
+                item.classList.add("active");
+                if (pageTitle) pageTitle.textContent = item.querySelector("span").textContent;
+            } else {
+                item.classList.remove("active");
+            }
+        });
+
+        sections.forEach(sec => {
+            if (sec.id === sectionId) {
+                sec.classList.add("active-section");
+            } else {
+                sec.classList.remove("active-section");
+            }
+        });
+    }
+
+    navItems.forEach(item => {
+        item.addEventListener("click", function () {
+            const sec = this.getAttribute("data-section");
+            if (sec) switchSection(sec);
+        });
+    });
+
+    document.querySelectorAll("[data-section-link]").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const sec = this.getAttribute("data-section-link");
+            if (sec) switchSection(sec);
+        });
+    });
+
+    // Render Drivers with Action Delegation
+    function renderDrivers(searchFilter = "") {
+        const tbody = document.getElementById("driversTableBody");
+        if (!tbody) return;
+
+        const filtered = drivers.filter(d => 
+            d.name.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            d.email.toLowerCase().includes(searchFilter.toLowerCase()) ||
+            d.id.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No drivers found.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(d => `
+            <tr>
+                <td><strong>${d.id}</strong></td>
+                <td>${d.name}</td>
+                <td>${d.email}</td>
+                <td>${d.phone}</td>
+                <td>
+                    <span style="padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600; background:${d.status === 'Active' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}; color:${d.status === 'Active' ? '#16a34a' : '#dc2626'};">
+                        ${d.status}
+                    </span>
+                </td>
+                <td style="display:flex; gap:6px;">
+                    <button class="toggle-driver" data-id="${d.id}" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:4px; cursor:pointer; background:#fff;">
+                        ${d.status === 'Active' ? 'Suspend' : 'Activate'}
+                    </button>
+                    <button class="notice-driver" data-id="${d.id}" data-name="${d.name}" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:4px; cursor:pointer; background:#f8fafc;">
+                        <i class="fas fa-envelope"></i> Notice
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    // Event Delegation for Dynamic Driver Row Buttons
+    const driversTableBody = document.getElementById("driversTableBody");
+    if (driversTableBody) {
+        driversTableBody.addEventListener("click", function (event) {
+            const toggleBtn = event.target.closest(".toggle-driver");
+            if (toggleBtn) {
+                const id = toggleBtn.getAttribute("data-id");
+                const target = drivers.find(d => d.id === id);
+                if (target) {
+                    target.status = target.status === "Active" ? "Suspended" : "Active";
+                    setStoredData("admin_drivers", drivers);
+                    showToast(`Driver ${target.name} status updated to ${target.status}`);
+                    addLog("DRIVER_UPDATE", `Driver ${target.id} changed to ${target.status}`);
+                    renderDrivers(document.getElementById("driverSearch")?.value || "");
+                    updateDashboard();
+                }
+                return;
+            }
+
+            const noticeBtn = event.target.closest(".notice-driver");
+            if (noticeBtn) {
+                const driverId = noticeBtn.getAttribute("data-id");
+                const driverName = noticeBtn.getAttribute("data-name");
+                
+                openModal(`Send Notice to ${driverName}`, `
+                    <form id="sendNoticeForm" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
+                        <input type="hidden" id="noticeDriverId" value="${driverId}">
+                        <div>
+                            <label style="font-size:12px; font-weight:600;">Recipient:</label>
+                            <input type="text" value="${driverName} (${driverId})" readonly style="width:100%; padding:8px; background:#f1f5f9; border:1px solid #ccc; border-radius:6px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size:12px; font-weight:600;">Subject:</label>
+                            <input type="text" id="noticeSubject" placeholder="e.g. Account Review Notice" required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size:12px; font-weight:600;">Message Notice:</label>
+                            <textarea id="noticeMessage" rows="4" placeholder="Enter notice details..." required style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px; resize:vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="primary-button" style="padding:10px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Send Notice</button>
+                    </form>
+                `);
+
+                document.getElementById("sendNoticeForm").addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const subject = document.getElementById("noticeSubject").value;
+                    const message = document.getElementById("noticeMessage").value;
+                    
+                    const notices = getStoredData("driver_notices", []);
+                    notices.push({
+                        driverId: driverId,
+                        subject: subject,
+                        message: message,
+                        date: new Date().toISOString()
+                    });
+                    setStoredData("driver_notices", notices);
+
+                    modalOverlay.style.display = "none";
+                    showToast(`Notice delivered to ${driverName}`);
+                    addLog("DRIVER_NOTICE", `Notice sent to ${driverId}: "${subject}"`);
+                });
+            }
+        });
+    }
+
+    // Render Admins
+    function renderAdmins(searchFilter = "") {
+        const tbody = document.getElementById("adminsTableBody");
+        if (!tbody) return;
+
+        const filtered = admins.filter(a => 
+            a.name.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            a.email.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No administrators found.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(a => `
+            <tr>
+                <td><strong>${a.id}</strong></td>
+                <td>${a.name}</td>
+                <td>${a.email}</td>
+                <td>${a.phone}</td>
+                <td>
+                    <span style="padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600; background:${a.status === 'Active' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}; color:${a.status === 'Active' ? '#16a34a' : '#dc2626'};">
+                        ${a.status}
+                    </span>
+                </td>
+                <td>
+                    <button class="toggle-admin" data-id="${a.id}" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:4px; cursor:pointer; background:#fff;">
+                        ${a.status === 'Active' ? 'Deactivate' : 'Activate'}
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    document.getElementById("adminsTableBody")?.addEventListener("click", function(e) {
+        const btn = e.target.closest(".toggle-admin");
+        if (btn) {
+            const id = btn.getAttribute("data-id");
+            const target = admins.find(a => a.id === id);
+            if (target) {
+                target.status = target.status === "Active" ? "Inactive" : "Active";
+                setStoredData("admin_admins", admins);
+                showToast(`Admin ${target.name} status updated`);
+                addLog("ADMIN_UPDATE", `Admin ${target.id} set to ${target.status}`);
+                renderAdmins(document.getElementById("adminSearch")?.value || "");
+                updateDashboard();
+            }
+        }
+    });
+
+    // Render Riders
+    function renderRiders(searchFilter = "") {
+        const tbody = document.getElementById("ridersTableBody");
+        if (!tbody) return;
+
+        const filtered = riders.filter(r => 
+            r.name.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            r.email.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No riders found.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(r => `
+            <tr>
+                <td><strong>${r.id}</strong></td>
+                <td>${r.name}</td>
+                <td>${r.email}</td>
+                <td>${r.phone}</td>
+                <td>
+                    <span style="padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600; background:${r.status === 'Active' ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}; color:${r.status === 'Active' ? '#16a34a' : '#dc2626'};">
+                        ${r.status}
+                    </span>
+                </td>
+                <td>
+                    <button class="toggle-rider" data-id="${r.id}" style="padding:4px 8px; border:1px solid #cbd5e1; border-radius:4px; cursor:pointer; background:#fff;">
+                        ${r.status === 'Active' ? 'Block' : 'Unblock'}
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    document.getElementById("ridersTableBody")?.addEventListener("click", function(e) {
+        const btn = e.target.closest(".toggle-rider");
+        if (btn) {
+            const id = btn.getAttribute("data-id");
+            const target = riders.find(r => r.id === id);
+            if (target) {
+                target.status = target.status === "Active" ? "Blocked" : "Active";
+                setStoredData("admin_riders", riders);
+                showToast(`Rider ${target.name} status updated`);
+                addLog("RIDER_UPDATE", `Rider ${target.id} set to ${target.status}`);
+                renderRiders(document.getElementById("riderSearch")?.value || "");
+                updateDashboard();
+            }
+        }
+    });
+
+    // Dynamic Add Actions
+    document.getElementById("addDriverBtn")?.addEventListener("click", function () {
+        openModal("Add New Driver", `
+            <form id="addDriverForm" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
+                <input type="text" id="newDriverName" placeholder="Full Name" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="email" id="newDriverEmail" placeholder="Email Address" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="text" id="newDriverPhone" placeholder="Phone Number" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <button type="submit" class="primary-button" style="padding:10px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Save Driver</button>
+            </form>
+        `);
+
+        document.getElementById("addDriverForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const newDriver = {
+                id: "DRV-" + Math.floor(100 + Math.random() * 900),
+                name: document.getElementById("newDriverName").value,
+                email: document.getElementById("newDriverEmail").value,
+                phone: document.getElementById("newDriverPhone").value,
+                status: "Active"
+            };
+            drivers.push(newDriver);
+            setStoredData("admin_drivers", drivers);
+            modalOverlay.style.display = "none";
+            showToast("Driver added successfully!");
+            addLog("DRIVER_ADD", `Added new driver ${newDriver.name}`);
+            renderDrivers();
+            updateDashboard();
+        });
+    });
+
+    document.getElementById("addAdminBtn")?.addEventListener("click", function () {
+        openModal("Add Administrator", `
+            <form id="addAdminForm" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
+                <input type="text" id="newAdminName" placeholder="Full Name" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="email" id="newAdminEmail" placeholder="Email Address" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="text" id="newAdminPhone" placeholder="Phone Number" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <button type="submit" class="primary-button" style="padding:10px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Save Admin</button>
+            </form>
+        `);
+
+        document.getElementById("addAdminForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const newAdmin = {
+                id: "ADM-" + Math.floor(10 + Math.random() * 90),
+                name: document.getElementById("newAdminName").value,
+                email: document.getElementById("newAdminEmail").value,
+                phone: document.getElementById("newAdminPhone").value,
+                status: "Active"
+            };
+            admins.push(newAdmin);
+            setStoredData("admin_admins", admins);
+            modalOverlay.style.display = "none";
+            showToast("Admin account created!");
+            addLog("ADMIN_ADD", `Created admin account ${newAdmin.name}`);
+            renderAdmins();
+            updateDashboard();
+        });
+    });
+
+    document.getElementById("addRiderBtn")?.addEventListener("click", function () {
+        openModal("Add New Rider", `
+            <form id="addRiderForm" style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
+                <input type="text" id="newRiderName" placeholder="Full Name" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="email" id="newRiderEmail" placeholder="Email Address" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <input type="text" id="newRiderPhone" placeholder="Phone Number" required style="padding:8px; border:1px solid #ccc; border-radius:6px;">
+                <button type="submit" class="primary-button" style="padding:10px; background:#2563eb; color:#fff; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Save Rider</button>
+            </form>
+        `);
+
+        document.getElementById("addRiderForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const newRider = {
+                id: "RDR-" + Math.floor(500 + Math.random() * 500),
+                name: document.getElementById("newRiderName").value,
+                email: document.getElementById("newRiderEmail").value,
+                phone: document.getElementById("newRiderPhone").value,
+                status: "Active"
+            };
+            riders.push(newRider);
+            setStoredData("admin_riders", riders);
+            modalOverlay.style.display = "none";
+            showToast("Rider registered!");
+            addLog("RIDER_ADD", `Registered new rider ${newRider.name}`);
+            renderRiders();
+            updateDashboard();
+        });
+    });
+
+    // Search Handlers
+    document.getElementById("driverSearch")?.addEventListener("input", (e) => renderDrivers(e.target.value));
+    document.getElementById("adminSearch")?.addEventListener("input", (e) => renderAdmins(e.target.value));
+    document.getElementById("riderSearch")?.addEventListener("input", (e) => renderRiders(e.target.value));
+
+    // System Logging
+    function addLog(action, description) {
+        logs.unshift({
+            time: new Date().toLocaleTimeString(),
+            action: action,
+            user: "Super Admin",
+            description: description
+        });
+        setStoredData("admin_logs", logs);
+        renderLogs();
+    }
+
+    function renderLogs(searchFilter = "") {
+        const tbody = document.getElementById("logsTableBody");
+        const recentBox = document.getElementById("recentActivity");
+
+        const filtered = logs.filter(l => 
+            l.action.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            l.description.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+
+        if (tbody) {
+            tbody.innerHTML = filtered.map(l => `
+                <tr>
+                    <td>${l.time}</td>
+                    <td><strong>${l.action}</strong></td>
+                    <td>${l.user}</td>
+                    <td>${l.description}</td>
+                </tr>
+            `).join("");
+        }
+
+        if (recentBox) {
+            recentBox.innerHTML = logs.slice(0, 5).map(l => `
+                <div style="padding:8px 0; border-bottom:1px solid #f1f5f9; font-size:13px;">
+                    <strong>${l.action}</strong>: ${l.description}
+                    <div style="font-size:11px; color:#64748b;">${l.time}</div>
+                </div>
+            `).join("");
+        }
+    }
+
+    document.getElementById("logSearch")?.addEventListener("input", (e) => renderLogs(e.target.value));
+    document.getElementById("refreshLogsBtn")?.addEventListener("click", () => {
+        renderLogs();
+        showToast("Activity logs refreshed");
+    });
+
+    // Sync Live Trip Data
+    function syncLiveRides() {
+        const tbody = document.getElementById("ridesTableBody");
+        const activeRideData = localStorage.getItem("activeRide");
+
+        if (tbody) {
+            if (activeRideData) {
+                const ride = JSON.parse(activeRideData);
+                tbody.innerHTML = `
+                    <tr>
+                        <td><strong>${ride.bookingId || "BK-1001"}</strong></td>
+                        <td>${ride.riderName || "Rahul Sharma"}</td>
+                        <td>${ride.driverName || "Assigned Driver"}</td>
+                        <td>${ride.pickup || "Current Pickup"}</td>
+                        <td>${ride.destination || "Destination"}</td>
+                        <td><span style="background:rgba(37,99,235,0.1); color:#2563eb; padding:3px 8px; border-radius:4px; font-weight:600;">${ride.status || "In Transit"}</span></td>
+                    </tr>
+                `;
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td><strong>BK-9001</strong></td>
+                        <td>Rahul Sharma</td>
+                        <td>Vikram Singh</td>
+                        <td>Hitec City</td>
+                        <td>Gachibowli</td>
+                        <td><span style="background:rgba(34,197,94,0.15); color:#16a34a; padding:3px 8px; border-radius:4px; font-weight:600;">Completed</span></td>
+                    </tr>
+                `;
+            }
+        }
+    }
+
+    // Chart Initialization
+    function initChart() {
+        const canvas = document.getElementById("activityChart");
+        if (!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+        if (activityChart) activityChart.destroy();
+
+        activityChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [
+                    {
+                        label: "Trips",
+                        data: [12, 19, 15, 25, 22, 30, 28],
+                        borderColor: "#2563eb",
+                        backgroundColor: "rgba(37, 99, 235, 0.1)",
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: "Active Users",
+                        data: [8, 12, 18, 20, 26, 35, 32],
+                        borderColor: "#10b981",
+                        backgroundColor: "rgba(16, 185, 129, 0.1)",
+                        fill: true,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: "bottom" }
+                }
+            }
+        });
+    }
+
+    // Dashboard Overview Updates
+    function updateDashboard() {
+        const totalUsersCount = riders.length + drivers.length;
+        const totalDriversCount = drivers.length;
+        const activeUsersCount = riders.filter(r => r.status === "Active").length;
+        const totalLogsCount = logs.length;
+        const totalRidesCount = localStorage.getItem("activeRide") ? 2 : 1;
+
+        document.getElementById("totalUsers").textContent = totalUsersCount;
+        document.getElementById("totalDrivers").textContent = totalDriversCount;
+        document.getElementById("activeUsers").textContent = activeUsersCount;
+        document.getElementById("totalLogs").textContent = totalLogsCount;
+        document.getElementById("totalRides").textContent = totalRidesCount;
+
+        if (document.getElementById("reportUsers")) document.getElementById("reportUsers").textContent = totalUsersCount;
+        if (document.getElementById("reportDrivers")) document.getElementById("reportDrivers").textContent = totalDriversCount;
+        if (document.getElementById("reportRides")) document.getElementById("reportRides").textContent = totalRidesCount;
+        if (document.getElementById("reportLogs")) document.getElementById("reportLogs").textContent = totalLogsCount;
+
+        const reportSummary = document.getElementById("reportSummary");
+        if (reportSummary) {
+            reportSummary.innerHTML = `
+                <p><strong>Platform Status:</strong> Operational</p>
+                <p><strong>System Health:</strong> 99.9% Uptime</p>
+                <p><strong>Active Accounts:</strong> ${activeUsersCount} active riders, ${drivers.filter(d => d.status === 'Active').length} active drivers.</p>
+                <p><strong>Logged Events:</strong> ${totalLogsCount} actions audited.</p>
+            `;
+        }
+    }
+
+    // Export Reports
+    document.getElementById("exportReportBtn")?.addEventListener("click", () => {
+        const reportContent = `Category,Value\nTotal Users,${riders.length + drivers.length}\nDrivers,${drivers.length}\nAdmins,${admins.length}\nRiders,${riders.length}\nLogs,${logs.length}`;
+        const blob = new Blob([reportContent], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `rideshare-report-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        showToast("Report downloaded successfully!");
+    });
+
+    // Theme Switcher
+    const toggleTheme = () => {
+        document.body.classList.toggle("dark-mode");
+        showToast("Theme switched");
+    };
+
+    document.getElementById("darkModeBtn")?.addEventListener("click", toggleTheme);
+    document.getElementById("settingsDarkMode")?.addEventListener("click", toggleTheme);
+
+    // Settings Modal Triggers
+    document.getElementById("databaseStatusBtn")?.addEventListener("click", () => {
+        openModal("Database Status", `
+            <div style="padding:10px 0;">
+                <p style="color:#16a34a; font-weight:600;"><i class="fas fa-check-circle"></i> Connected to Storage</p>
+                <br>
+                <p>Local state synced. Ready for operation.</p>
+            </div>
+        `);
+    });
+
+    document.getElementById("securityBtn")?.addEventListener("click", () => {
+        openModal("Security Policy", `
+            <div style="padding:10px 0;">
+                <p><strong>Encryption:</strong> Standard Active</p>
+                <p><strong>Session:</strong> Super Admin Authorized</p>
+            </div>
+        `);
+    });
+
+    document.getElementById("backupBtn")?.addEventListener("click", () => {
+        const backupData = JSON.stringify({ drivers, admins, riders, logs }, null, 2);
+        const blob = new Blob([backupData], { type: "application/json" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `backup-rideshare-${Date.now()}.json`;
+        a.click();
+        showToast("Backup saved to file");
+    });
+
+    // Refresh Handlers
+    document.getElementById("refreshBtn")?.addEventListener("click", () => {
+        updateDashboard();
+        renderDrivers();
+        renderAdmins();
+        renderRiders();
+        renderLogs();
+        syncLiveRides();
+        showToast("Dashboard refreshed");
+    });
+
+    document.getElementById("refreshDriversBtn")?.addEventListener("click", () => {
+        renderDrivers();
+        showToast("Drivers refreshed");
+    });
+
+    window.addEventListener("storage", function (e) {
+        if (e.key === "activeRide") {
+            syncLiveRides();
+            updateDashboard();
+        }
+    });
+
+    // Initial Execution
+    renderDrivers();
+    renderAdmins();
+    renderRiders();
+    renderLogs();
+    syncLiveRides();
+    initChart();
+    updateDashboard();
+});
+</script>
+
+</body>
+
+</html>

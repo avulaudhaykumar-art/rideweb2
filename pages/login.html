@@ -1,0 +1,204 @@
+"use strict";
+
+const API_URL = "http://localhost:3000";
+
+const loginButton = document.getElementById("loginBtn");
+const roleSelect = document.getElementById("role");
+
+loginButton.addEventListener("click", async function () {
+
+    const emailInput = document.querySelector(
+        'input[type="email"]'
+    );
+
+    const passwordInput = document.querySelector(
+        'input[type="password"]'
+    );
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    const selectedRole = roleSelect.value
+        .toLowerCase()
+        .replace(" ", "");
+
+    // =========================================
+    // VALIDATION
+    // =========================================
+
+    if (!email || !password) {
+
+        alert("⚠️ Please enter email and password.");
+
+        return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "Logging in...";
+
+
+    try {
+
+        // =========================================
+        // SEND LOGIN REQUEST
+        // =========================================
+
+        const response = await fetch(
+            API_URL + "/api/auth/login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        // =========================================
+        // LOGIN FAILED
+        // =========================================
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Login failed."
+            );
+        }
+
+
+        // =========================================
+        // GET USER
+        // =========================================
+
+        const user = data.user;
+
+
+        // =========================================
+        // CHECK SELECTED ROLE
+        // =========================================
+
+        const actualRole =
+            String(user.role)
+                .toLowerCase()
+                .replace(" ", "");
+
+
+        if (
+            selectedRole !== actualRole &&
+            selectedRole !== "admin" &&
+            selectedRole !== "superadmin"
+        ) {
+
+            alert(
+                "⚠️ Selected role does not match this account."
+            );
+
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
+
+            return;
+        }
+
+
+        // =========================================
+        // SAVE LOGIN SESSION
+        // =========================================
+
+        localStorage.setItem(
+            "loggedInUser",
+            JSON.stringify(user)
+        );
+
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+
+        // =========================================
+        // SUCCESS
+        // =========================================
+
+        alert(
+            "✅ Login successful!\n\n" +
+            "Welcome " +
+            user.name +
+            "!"
+        );
+
+
+        // =========================================
+        // REDIRECT
+        // =========================================
+
+        if (actualRole === "rider") {
+
+            window.location.href =
+                "../pages/rider/rider.html";
+
+        }
+
+        else if (actualRole === "driver") {
+
+            window.location.href =
+                "../pages/driver/driver.html";
+
+        }
+
+        else if (actualRole === "admin") {
+
+            window.location.href =
+                "../pages/admin/admin.html";
+
+        }
+
+        else if (actualRole === "superadmin") {
+
+            window.location.href =
+                "../pages/superadmin/superadmin.html";
+
+        }
+
+        else {
+
+            alert(
+                "⚠️ Dashboard for this role is not configured yet."
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+        alert(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+
+    }
+
+});

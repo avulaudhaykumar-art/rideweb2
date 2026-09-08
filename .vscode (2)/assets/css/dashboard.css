@@ -1,0 +1,877 @@
+/* ==========================
+   GLOBAL SETTINGS
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+
+body{
+
+    background:#f4f7fb;
+    color:#333;
+
+}
+
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar{
+
+    position:fixed;
+
+    width:260px;
+
+    height:100vh;
+
+    background:linear-gradient(
+        180deg,
+        #111827,
+        #1e40af
+    );
+
+    color:white;
+
+    padding:25px;
+
+}
+
+
+.logo{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+
+.logo h2{
+
+    font-size:26px;
+
+}
+
+
+.logo p{
+
+    margin-top:5px;
+
+    color:#cbd5e1;
+
+}
+
+
+/* MENU */
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+
+.sidebar ul li{
+
+    padding:15px;
+
+    margin:10px 0;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    font-size:16px;
+
+}
+
+
+.sidebar ul li i{
+
+    margin-right:12px;
+
+}
+
+
+.sidebar ul li:hover,
+.sidebar ul .active{
+
+    background:white;
+
+    color:#1e40af;
+
+}
+
+
+
+/* ==========================
+   MAIN AREA
+========================== */
+
+
+.main{
+
+    margin-left:260px;
+
+    padding:30px;
+
+}
+
+
+
+/* ==========================
+   HEADER
+========================== */
+
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+header h1{
+
+    font-size:32px;
+
+}
+
+
+header p{
+
+    color:#64748b;
+
+    margin-top:8px;
+
+}
+
+
+/* PROFILE */
+
+
+.profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+.profile img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+}
+
+
+
+/* ==========================
+   DASHBOARD CARDS
+========================== */
+
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:25px;
+
+    margin-top:30px;
+
+}
+
+
+
+.card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+
+
+.card i{
+
+    font-size:35px;
+
+    color:#2563eb;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.card h2{
+
+    font-size:32px;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.card p{
+
+    color:#64748b;
+
+}
+/* ==========================
+   MANAGEMENT SECTIONS
+========================== */
+
+
+.management{
+
+    background:white;
+
+    margin-top:30px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+
+.management h2{
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
+    color:#1e293b;
+
+}
+
+
+
+/* ==========================
+   TOOLBAR BUTTONS
+========================== */
+
+
+.toolbar{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.toolbar button{
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+
+
+.toolbar button:hover{
+
+    background:#1d4ed8;
+
+    transform:scale(1.05);
+
+}
+
+
+
+/* ==========================
+   TABLE DESIGN
+========================== */
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
+    border-radius:12px;
+
+}
+
+
+
+thead{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+
+th{
+
+    padding:15px;
+
+    text-align:left;
+
+    font-size:15px;
+
+}
+
+
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+
+
+tbody tr{
+
+    transition:0.3s;
+
+}
+
+
+
+tbody tr:hover{
+
+    background:#f1f5f9;
+
+}
+
+
+
+/* TABLE BUTTON */
+
+
+td button{
+
+    padding:8px 15px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#10b981;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+
+td button:hover{
+
+    background:#059669;
+
+}
+
+
+
+/* ==========================
+   CHART BOX
+========================== */
+
+
+.chart-box{
+
+    height:300px;
+
+    background:#f8fafc;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+
+
+.chart-box h3{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+/* ==========================
+   NOTIFICATIONS
+========================== */
+
+
+.notification{
+
+    padding:18px;
+
+    margin:12px 0;
+
+    background:#eff6ff;
+
+    border-left:5px solid #2563eb;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    transition:0.3s;
+
+}
+
+
+
+.notification:hover{
+
+    transform:translateX(8px);
+
+    background:#dbeafe;
+
+}
+
+
+
+/* ==========================
+   FOOTER
+========================== */
+
+
+footer{
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+
+
+footer hr{
+
+    border:none;
+
+    height:1px;
+
+    background:#ddd;
+
+    margin-bottom:15px;
+
+}
+/* ==========================
+   DARK MODE SUPPORT
+========================== */
+
+
+.dark-mode{
+
+    background:#020617;
+
+    color:white;
+
+}
+
+
+
+.dark-mode .management,
+.dark-mode header,
+.dark-mode .card{
+
+    background:#111827;
+
+    color:white;
+
+}
+
+
+
+.dark-mode .management h2,
+.dark-mode header h1{
+
+    color:white;
+
+}
+
+
+
+.dark-mode table{
+
+    color:white;
+
+}
+
+
+
+.dark-mode tbody tr:hover{
+
+    background:#1e293b;
+
+}
+
+
+
+/* ==========================
+   ANIMATIONS
+========================== */
+
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+.main{
+
+    animation:fadeIn 0.6s ease;
+
+}
+
+
+
+.card{
+
+    animation:fadeIn 0.8s ease;
+
+}
+
+
+
+/* ==========================
+   STATUS BADGES
+========================== */
+
+
+.status-active{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+
+
+.status-warning{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+}
+
+
+
+.status-danger{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+}
+
+
+
+/* ==========================
+   SCROLL BAR
+========================== */
+
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+::-webkit-scrollbar-track{
+
+    background:#e5e7eb;
+
+}
+
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:20px;
+
+}
+
+
+
+/* ==========================
+   RESPONSIVE DESIGN
+========================== */
+
+
+@media(max-width:1100px){
+
+
+    .cards{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+
+}
+
+
+
+@media(max-width:800px){
+
+
+    .sidebar{
+
+        width:80px;
+
+        padding:15px;
+
+    }
+
+
+    .logo h2{
+
+        font-size:18px;
+
+    }
+
+
+    .logo p{
+
+        display:none;
+
+    }
+
+
+    .sidebar ul li{
+
+        font-size:0;
+
+    }
+
+
+    .sidebar ul li i{
+
+        font-size:20px;
+
+    }
+
+
+    .main{
+
+        margin-left:80px;
+
+    }
+
+
+    header{
+
+        flex-direction:column;
+
+        gap:20px;
+
+    }
+
+
+    .cards{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+    table{
+
+        display:block;
+
+        overflow-x:auto;
+
+    }
+
+
+}
+
+
+
+@media(max-width:500px){
+
+
+    .main{
+
+        padding:15px;
+
+    }
+
+
+    header h1{
+
+        font-size:24px;
+
+    }
+
+
+    .management{
+
+        padding:15px;
+
+    }
+
+
+    .toolbar button{
+
+        width:100%;
+
+    }
+
+}
+
+
+/* ==========================
+   PREMIUM EFFECTS
+========================== */
+
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+}
+
+
+.management:hover{
+
+    box-shadow:
+
+    0 10px 30px rgba(0,0,0,0.12);
+
+}
+
+
+
+/* ==========================
+   END OF DASHBOARD CSS
+========================== */

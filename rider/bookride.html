@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book a Ride - Smart Ride Sharing System</title>
+
+    <!-- Google Fonts -->
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #ffffff;
+            padding: 15px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #2563eb;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #0f172a;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 14px;
+            outline: none;
+
+            background: #ffffff;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* ================= DETAILS ================= */
+
+        .details-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .details-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+            padding: 11px 0;
+
+            border-bottom: 1px solid #f1f5f9;
+
+            font-size: 14px;
+        }
+
+        .details-list li span:first-child {
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .details-list li span:last-child {
+            font-weight: 600;
+            color: #0f172a;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        /* ================= STATUS ================= */
+
+        .badge-status {
+            padding: 5px 12px;
+            border-radius: 12px;
+
+            background: #f1f5f9;
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ================= OTP ================= */
+
+        .otp-badge {
+            background: #fef3c7 !important;
+            color: #d97706 !important;
+
+            padding: 3px 9px;
+            border-radius: 6px;
+
+            font-family: monospace;
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: 0.2s;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message {
+            display: none;
+
+            margin-top: 12px;
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.loading {
+            display: block;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* ================= MAP ================= */
+
+        #riderMap {
+            width: 100%;
+            height: 430px;
+
+            border-radius: 12px;
+            background: #e2e8f0;
+
+            overflow: hidden;
+        }
+
+        .map-help {
+            margin-top: 10px;
+
+            color: #64748b;
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            #riderMap {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .details-list li {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .details-list li span:last-child {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <a href="../index.html" class="logo">
+            🚖 RideShare Rider
+        </a>
+
+        <div class="nav-links">
+
+            <a href="../index.html">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+
+            <a href="../driver/dashboard.html">
+                <i class="fas fa-car"></i>
+                Driver Panel
+            </a>
+
+            <a href="../pages/login.html">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="container">
+
+        <!-- ================= BOOKING CARD ================= -->
+
+        <div class="card">
+
+            <h2>
+                <i
+                    class="fas fa-map-marker-alt"
+                    style="color:#2563eb;"
+                ></i>
+
+                Book Your Ride
+            </h2>
+
+
+            <!-- ================= BOOKING FORM ================= -->
+
+            <div id="bookingFormSection">
+
+                <!-- PICKUP -->
+
+                <div class="form-group">
+
+                    <label for="pickup">
+                        Pickup Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pickup"
+                        placeholder="Enter pickup point (e.g. Koti, Hyderabad)"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- DESTINATION -->
+
+                <div class="form-group">
+
+                    <label for="destination">
+                        Destination
+                    </label>
+
+                    <input
+                        type="text"
+                        id="destination"
+                        placeholder="Enter destination (e.g. Hitech City, Hyderabad)"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- VEHICLE -->
+
+                <div class="form-group">
+
+                    <label for="vehicleType">
+                        Vehicle Type
+                    </label>
+
+                    <select id="vehicleType">
+
+                        <option value="Mini">
+                            Mini Sedan (₹12/km)
+                        </option>
+
+                        <option value="Prime">
+                            Prime SUV (₹18/km)
+                        </option>
+
+                        <option value="Auto">
+                            Auto Rickshaw (₹10/km)
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="bookingMessage"
+                class="message"
+            ></div>
+
+
+            <!-- ================= RIDE DETAILS ================= -->
+
+            <ul class="details-list">
+
+                <li>
+                    <span>Pickup Location:</span>
+                    <span id="routePickup">-</span>
+                </li>
+
+                <li>
+                    <span>Destination:</span>
+                    <span id="routeDestination">-</span>
+                </li>
+
+                <li>
+                    <span>Total Distance:</span>
+                    <span id="routeDistance">-</span>
+                </li>
+
+                <li>
+                    <span>Est. Travel Time:</span>
+                    <span id="routeTime">-</span>
+                </li>
+
+                <li>
+                    <span>Vehicle:</span>
+                    <span id="routeVehicle">-</span>
+                </li>
+
+                <li>
+                    <span>Estimated Fare:</span>
+                    <span id="routeFare">-</span>
+                </li>
+
+                <li>
+                    <span>Assigned Driver:</span>
+                    <span id="routeDriver">-</span>
+                </li>
+
+                <li>
+                    <span>Booking ID:</span>
+                    <span id="confirmationBookingId">-</span>
+                </li>
+
+                <li>
+                    <span>OTP:</span>
+
+                    <span
+                        id="confirmationOTP"
+                        class="otp-badge"
+                    >
+                        -
+                    </span>
+                </li>
+
+                <li>
+                    <span>Ride Status:</span>
+
+                    <span
+                        id="currentStatus"
+                        class="badge-status"
+                    >
+                        No Active Booking
+                    </span>
+                </li>
+
+            </ul>
+
+
+            <!-- ================= BUTTONS ================= -->
+
+            <div class="btn-group">
+
+                <button
+                    id="bookRide"
+                    class="btn btn-primary"
+                    type="button"
+                >
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    Confirm Booking
+
+                </button>
+
+
+                <button
+                    id="cancelRide"
+                    class="btn btn-danger"
+                    type="button"
+                    style="display:none;"
+                >
+
+                    <i class="fas fa-ban"></i>
+
+                    Cancel Ride
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAP CARD ================= -->
+
+        <div class="card">
+
+            <h2>
+
+                <i
+                    class="fas fa-route"
+                    style="color:#2563eb;"
+                ></i>
+
+                Live Route
+
+            </h2>
+
+
+            <div id="riderMap"></div>
+
+
+            <div class="map-help">
+
+                Enter pickup and destination to calculate
+                the actual road route.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LEAFLET ================= -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
+
+
+    <!-- ================= RIDER JS ================= -->
+
+    <script src="../assets/js/rider.js"></script>
+
+</body>
+
+</html>

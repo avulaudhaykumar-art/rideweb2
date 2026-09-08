@@ -1,0 +1,455 @@
+/* =====================================================
+   GLOBAL & RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =====================================================
+   HEADER NAV BAR
+===================================================== */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 5%;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .logo {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #2563eb;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+header .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+header .nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+}
+
+header .nav-links a:hover {
+    color: #2563eb;
+}
+
+/* =====================================================
+   MAIN DASHBOARD CONTAINER & GRID
+===================================================== */
+
+.driver-container {
+    max-width: 1300px;
+    width: 90%;
+    margin: 25px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    flex: 1;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* Base Card */
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* =====================================================
+   DRIVER STATUS & DUTY TOGGLE
+===================================================== */
+
+.driver-status-section {
+    width: 100%;
+}
+
+.status-card {
+    background: #ffffff;
+    padding: 20px 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-card h3 {
+    font-size: 1.1rem;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.status-card p {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* Switch UI */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 30px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.3s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #ffffff;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+    background-color: #10b981;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* =====================================================
+   TRIP MANAGEMENT & BADGES
+===================================================== */
+
+.current-status-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.badge-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.badge-status.requested { background: #fef3c7; color: #d97706; }
+.badge-status.accepted { background: #dbeafe; color: #2563eb; }
+.badge-status.in-progress { background: #e0e7ff; color: #4f46e5; }
+.badge-status.completed { background: #dcfce7; color: #15803d; }
+.badge-status.cancelled,
+.badge-status.declined { background: #fee2e2; color: #ef4444; }
+.badge-status.offline { background: #f1f5f9; color: #94a3b8; }
+.badge-status.idle { background: #f1f5f9; color: #475569; }
+
+/* Details List */
+.details-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.details-list li {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 0.95rem;
+}
+
+.details-list li span:first-child {
+    color: #64748b;
+}
+
+.details-list li span:last-child {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* OTP Entry Box */
+.otp-input-group {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.otp-input-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 8px;
+}
+
+.otp-input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #93c5fd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    text-align: center;
+    font-weight: 700;
+    background: #ffffff;
+}
+
+.otp-input-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Button Actions Grid */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.btn {
+    padding: 13px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: grayscale(30%);
+}
+
+.btn-accept { background: #10b981; color: #ffffff; }
+.btn-accept:not(:disabled):hover { background: #059669; }
+
+.btn-start { background: #2563eb; color: #ffffff; }
+.btn-start:not(:disabled):hover { background: #1d4ed8; }
+
+.btn-complete { background: #0284c7; color: #ffffff; }
+.btn-complete:not(:disabled):hover { background: #0369a1; }
+
+.btn-decline { background: #ef4444; color: #ffffff; }
+.btn-decline:not(:disabled):hover { background: #dc2626; }
+
+/* =====================================================
+   MAP & NAVIGATION SECTION
+===================================================== */
+
+.map-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-header h2 {
+    font-size: 1.2rem;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-header p {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
+/* Map Controls Toolbar */
+.map-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.map-toolbar button {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #334155;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.map-toolbar button:hover {
+    background: #eff6ff;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+/* Map Container */
+#driverMap {
+    width: 100%;
+    height: 380px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    z-index: 1;
+}
+
+/* Leaflet Custom Marker Icons */
+.custom-driver-icon,
+.custom-pickup-icon,
+.custom-dest-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Leaflet Routing Machine Panel Styling */
+.leaflet-routing-container {
+    background: #ffffff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+    font-family: inherit !important;
+    font-size: 0.85rem !important;
+    padding: 10px !important;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.leaflet-routing-alt {
+    max-height: none !important;
+}
+
+/* Live Map Status Banner */
+.map-message {
+    background: #eff6ff;
+    border-left: 4px solid #0c53ed;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #1e40af;
+    text-align: center;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    #driverMap {
+        height: 300px;
+    }
+}
