@@ -12,7 +12,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 // MONGODB CONNECTION SETUP
 // ==========================================
 // <-- 2. PASTE YOUR MONGODB CONNECTION STRING HERE
-const MONGO_URI = "mongodb+srv://ridesharing:<db_password>@cluster0.wsyh0ov.mongodb.net/?appName=Cluster0";
+const MONGO_URI = "mongodb+srv://ridesharing:<db_a0zBv5YRjwbbivbr>@cluster0.wsyh0ov.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB Connected Successfully'))
