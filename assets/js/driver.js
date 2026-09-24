@@ -1,15 +1,12 @@
 "use strict";
 
 /* =========================================================
-   SMART RIDE SHARING SYSTEM - DRIVER DASHBOARD (LEAFLET.JS & SOCKET.IO)
+   SMART RIDE SHARING SYSTEM - DRIVER DASHBOARD (LEAFLET.JS)
 ========================================================= */
 
-// Live Backend Service URL
-const API_BASE_URL = "https://ridesharing-backend-esyq.onrender.com";
 const STORAGE_KEY = "activeRide";
 
 /* Global Variables */
-let socket = null;
 let map = null;
 let routingControl = null;
 let pickupMarker = null;
@@ -73,45 +70,6 @@ const destIcon = L.divIcon({
     iconSize: [28, 28],
     iconAnchor: [14, 28]
 });
-
-/* =========================================================
-   SOCKET.IO REAL-TIME BACKEND CONNECTION
-========================================================= */
-function initSocketConnection() {
-    if (typeof io === "undefined") {
-        console.warn("Socket.io script not loaded in HTML head.");
-        return;
-    }
-
-    socket = io(API_BASE_URL, {
-        transports: ["websocket", "polling"]
-    });
-
-    socket.on("connect", () => {
-        console.log("Connected to Live Backend Server:", socket.id);
-        socket.emit("driverOnline", { driverId: "DRIVER_001", status: "Online" });
-    });
-
-    socket.on("newRideRequest", (rideData) => {
-        if (dutyToggle && !dutyToggle.checked) return;
-        activeRide = rideData;
-        persistRideData();
-        renderDashboard(activeRide);
-        alert(`New ride request from ${rideData.riderName || 'Rider'}!`);
-    });
-
-    socket.on("rideCancelled", (data) => {
-        if (activeRide && activeRide.rideId === data.rideId) {
-            alert("Rider cancelled this trip.");
-            clearDashboard();
-            localStorage.removeItem(STORAGE_KEY);
-        }
-    });
-
-    socket.on("disconnect", () => {
-        console.warn("Disconnected from Live Backend Server.");
-    });
-}
 
 /* =========================================================
    LEAFLET MAP INITIALIZATION
@@ -220,20 +178,18 @@ function renderMapRoute(ride) {
     destinationMarker = L.marker(destination, { icon: destIcon }).addTo(map).bindPopup("Destination");
 
     // Add OSRM Road Navigation Routing
-    if (typeof L.Routing !== "undefined" && L.Routing.control) {
-        routingControl = L.Routing.control({
-            waypoints: [
-                L.latLng(pickup[0], pickup[1]),
-                L.latLng(destination[0], destination[1])
-            ],
-            routeWhileDragging: false,
-            addWaypoints: false,
-            show: false,
-            lineOptions: {
-                styles: [{ color: '#2563eb', opacity: 0.8, weight: 6 }]
-            }
-        }).addTo(map);
-    }
+    routingControl = L.Routing.control({
+        waypoints: [
+            L.latLng(pickup[0], pickup[1]),
+            L.latLng(destination[0], destination[1])
+        ],
+        routeWhileDragging: false,
+        addWaypoints: false,
+        show: false, // Hide side panel
+        lineOptions: {
+            styles: [{ color: '#2563eb', opacity: 0.8, weight: 6 }]
+        }
+    }).addTo(map);
 
     // Fit map view to bounds of the route
     const bounds = L.latLngBounds([pickup, destination]);
@@ -243,7 +199,7 @@ function renderMapRoute(ride) {
 }
 
 /* =========================================================
-   GEOLOCATION & LIVE STREAMING
+   GEOLOCATION
 ========================================================= */
 function startDriverLocationTracking() {
     if (!navigator.geolocation) return;
@@ -251,13 +207,6 @@ function startDriverLocationTracking() {
         (pos) => {
             driverPosition = [pos.coords.latitude, pos.coords.longitude];
             renderDriverMarker();
-            if (socket && activeRide) {
-                socket.emit("updateDriverLocation", {
-                    rideId: activeRide.rideId,
-                    lat: pos.coords.latitude,
-                    lng: pos.coords.longitude
-                });
-            }
         },
         (err) => console.warn("GPS tracking disabled or unavailable:", err),
         { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
@@ -320,20 +269,20 @@ function renderDashboard(ride) {
     const status = ride.status || "Requested";
     updateStatusBadge(status);
 
-    if (btnAccept) btnAccept.disabled = true;
-    if (btnStart) btnStart.disabled = true;
-    if (btnComplete) btnComplete.disabled = true;
-    if (btnDecline) btnDecline.disabled = true;
+    btnAccept.disabled = true;
+    btnStart.disabled = true;
+    btnComplete.disabled = true;
+    btnDecline.disabled = true;
 
     if (status === "Requested") {
-        if (btnAccept) btnAccept.disabled = false;
-        if (btnDecline) btnDecline.disabled = false;
+        btnAccept.disabled = false;
+        btnDecline.disabled = false;
         if (otpBox) otpBox.style.display = "none";
     } else if (status === "Accepted") {
-        if (btnStart) btnStart.disabled = false;
+        btnStart.disabled = false;
         if (otpBox) otpBox.style.display = "block";
     } else if (status === "In Progress") {
-        if (btnComplete) btnComplete.disabled = false;
+        btnComplete.disabled = false;
         if (otpBox) otpBox.style.display = "none";
     } else {
         if (otpBox) otpBox.style.display = "none";
@@ -375,10 +324,6 @@ function handleAccept() {
     activeRide.status = "Accepted";
     persistRideData();
     renderDashboard(activeRide);
-
-    if (socket) {
-        socket.emit("acceptRide", { rideId: activeRide.rideId, driverName: "Rahul Sharma" });
-    }
 }
 
 function handleStart() {
@@ -390,10 +335,6 @@ function handleStart() {
     activeRide.status = "In Progress";
     persistRideData();
     renderDashboard(activeRide);
-
-    if (socket) {
-        socket.emit("startRide", { rideId: activeRide.rideId });
-    }
 }
 
 function handleComplete() {
@@ -401,24 +342,14 @@ function handleComplete() {
     activeRide.status = "Completed";
     persistRideData();
     renderDashboard(activeRide);
-
-    if (socket) {
-        socket.emit("completeRide", { rideId: activeRide.rideId });
-    }
-    localStorage.removeItem(STORAGE_KEY);
 }
 
 function handleDecline() {
     if (!activeRide || !confirm("Decline this ride request?")) return;
     activeRide.status = "Cancelled";
     activeRide.cancelledBy = "Driver";
-    
-    if (socket) {
-        socket.emit("declineRide", { rideId: activeRide.rideId });
-    }
-
-    clearDashboard();
-    localStorage.removeItem(STORAGE_KEY);
+    persistRideData();
+    renderDashboard(activeRide);
 }
 
 /* Bind DOM Event Listeners */
@@ -430,14 +361,10 @@ function setupButtonListeners() {
 
     if (dutyToggle) {
         dutyToggle.onchange = () => {
-            const isOnline = dutyToggle.checked;
             if (dutyText) {
-                dutyText.textContent = isOnline 
+                dutyText.textContent = dutyToggle.checked 
                     ? "You are currently online and available." 
                     : "You are currently offline.";
-            }
-            if (socket) {
-                socket.emit("toggleDutyStatus", { online: isOnline });
             }
             loadActiveRide();
         };
@@ -447,7 +374,6 @@ function setupButtonListeners() {
 /* DOM Ready Listener */
 document.addEventListener("DOMContentLoaded", () => {
     initDOM();
-    initSocketConnection();
     initDriverMap();
     setupButtonListeners();
     loadActiveRide();

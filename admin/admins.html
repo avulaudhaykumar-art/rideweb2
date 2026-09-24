@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Admins - Smart Rideshare SuperAdmin</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2>Smart<span>Rideshare</span></h2>
+        </div>
+        <div class="admin-profile">
+            <img src="../assets/images/profile.jpg" alt="Admin Profile">
+            <div>
+                <h3>Super Admin</h3>
+                <p>System Administrator</p>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h2><i class="fa-solid fa-user-shield"></i> Administrator Management</h2>
+        
+        <div class="admin-controls">
+            <input type="text" id="searchAdmin" class="search-bar" placeholder="Search admin by name or email...">
+            <button class="btn-action btn-approve" id="btnAddAdmin"><i class="fa-solid fa-plus"></i> Add New Admin</button>
+        </div>
+
+        <div class="data-table-container">
+            <table class="data-table" id="adminsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ADM-001</td>
+                        <td>System SuperAdmin</td>
+                        <td>admin@rideshare.com</td>
+                        <td>Super Admin</td>
+                        <td><span class="badge badge-active">Active</span></td>
+                        <td>
+                            <button class="btn-action btn-view">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html>

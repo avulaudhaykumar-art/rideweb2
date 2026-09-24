@@ -1,196 +1,92 @@
-/* ===========================================================
-   BOOKING PAGE
-=========================================================== */
+/* =========================================================
+   SMART RIDESHARE - BOOKING PAGE CSS
+========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+:root {
+    --rapido-yellow: #ffcc00;
+    --rapido-yellow-hover: #ebd100;
+    --rapido-dark: #121212;
+    --rapido-gray: #64748b;
+    --rapido-light-bg: #f4f5f8;
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
 }
 
-body{
-
-background:#f4f7fb;
-
-color:#222;
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-/* ================= NAVBAR ================= */
-
-header{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-background:white;
-
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-
-z-index:1000;
-
+body {
+    background: var(--rapido-light-bg);
+    color: var(--rapido-dark);
+    min-height: 100vh;
 }
 
-.navbar{
-
-width:90%;
-
-height:80px;
-
-margin:auto;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
+.booking-container {
+    width: min(800px, 92%);
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #eef2f7;
 }
 
-.logo{
-
-font-size:30px;
-
-font-weight:700;
-
-color:#2563eb;
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
+.booking-container h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--rapido-dark);
 }
 
-.navbar ul{
-
-display:flex;
-
-list-style:none;
-
-gap:35px;
-
+.form-group {
+    margin-bottom: 18px;
+    position: relative;
 }
 
-.navbar ul li a{
-
-text-decoration:none;
-
-color:#333;
-
-font-weight:500;
-
-transition:.3s;
-
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--rapido-dark);
 }
 
-.navbar ul li a:hover{
-
-color:#2563eb;
-
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    transition: 0.25s;
 }
 
-/* ================= BOOKING PAGE ================= */
-
-.booking-page{
-
-padding:130px 8% 70px;
-
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--rapido-dark);
+    box-shadow: 0 0 0 3px rgba(18, 18, 18, 0.1);
 }
 
-.booking-page h1{
-
-font-size:50px;
-
-margin-bottom:10px;
-
+.btn-confirm-booking {
+    width: 100%;
+    padding: 16px;
+    background: var(--rapido-yellow);
+    color: var(--rapido-dark);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 204, 0, 0.4);
+    transition: 0.2s ease;
 }
 
-.booking-page p{
-
-font-size:18px;
-
-color:#666;
-
-margin-bottom:40px;
-
-}
-
-.booking-container{
-
-display:grid;
-
-grid-template-columns:1fr 1fr;
-
-gap:40px;
-
-}
-
-.booking-form{
-
-background:white;
-
-padding:35px;
-
-border-radius:20px;
-
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-
-}
-
-.booking-form h2{
-
-margin-bottom:25px;
-
-}
-
-.inputBox{
-
-display:flex;
-
-flex-direction:column;
-
-margin-bottom:20px;
-
-}
-
-.inputBox label{
-
-font-weight:600;
-
-margin-bottom:8px;
-
-}
-
-.inputBox input,
-.inputBox select{
-
-padding:15px;
-
-border:1px solid #ddd;
-
-border-radius:10px;
-
-font-size:16px;
-
-outline:none;
-
-transition:.3s;
-
-}
-
-.inputBox input:focus,
-.inputBox select:focus{
-
-border-color:#2563eb;
-
+.btn-confirm-booking:hover {
+    background: var(--rapido-yellow-hover);
+    transform: translateY(-2px);
 }

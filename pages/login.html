@@ -1,204 +1,41 @@
-"use strict";
-
-const API_URL = "http://localhost:3000";
-
-const loginButton = document.getElementById("loginBtn");
-const roleSelect = document.getElementById("role");
-
-loginButton.addEventListener("click", async function () {
-
-    const emailInput = document.querySelector(
-        'input[type="email"]'
-    );
-
-    const passwordInput = document.querySelector(
-        'input[type="password"]'
-    );
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    const selectedRole = roleSelect.value
-        .toLowerCase()
-        .replace(" ", "");
-
-    // =========================================
-    // VALIDATION
-    // =========================================
-
-    if (!email || !password) {
-
-        alert("⚠️ Please enter email and password.");
-
-        return;
-    }
-
-    loginButton.disabled = true;
-    loginButton.textContent = "Logging in...";
-
-
-    try {
-
-        // =========================================
-        // SEND LOGIN REQUEST
-        // =========================================
-
-        const response = await fetch(
-            API_URL + "/api/auth/login",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            }
-        );
-
-
-        const data = await response.json();
-
-
-        // =========================================
-        // LOGIN FAILED
-        // =========================================
-
-        if (!response.ok || !data.success) {
-
-            throw new Error(
-                data.message ||
-                "Login failed."
-            );
-        }
-
-
-        // =========================================
-        // GET USER
-        // =========================================
-
-        const user = data.user;
-
-
-        // =========================================
-        // CHECK SELECTED ROLE
-        // =========================================
-
-        const actualRole =
-            String(user.role)
-                .toLowerCase()
-                .replace(" ", "");
-
-
-        if (
-            selectedRole !== actualRole &&
-            selectedRole !== "admin" &&
-            selectedRole !== "superadmin"
-        ) {
-
-            alert(
-                "⚠️ Selected role does not match this account."
-            );
-
-            loginButton.disabled = false;
-            loginButton.textContent = "Login";
-
-            return;
-        }
-
-
-        // =========================================
-        // SAVE LOGIN SESSION
-        // =========================================
-
-        localStorage.setItem(
-            "loggedInUser",
-            JSON.stringify(user)
-        );
-
-
-        localStorage.setItem(
-            "isLoggedIn",
-            "true"
-        );
-
-
-        // =========================================
-        // SUCCESS
-        // =========================================
-
-        alert(
-            "✅ Login successful!\n\n" +
-            "Welcome " +
-            user.name +
-            "!"
-        );
-
-
-        // =========================================
-        // REDIRECT
-        // =========================================
-
-        if (actualRole === "rider") {
-
-            window.location.href =
-                "../pages/rider/rider.html";
-
-        }
-
-        else if (actualRole === "driver") {
-
-            window.location.href =
-                "../pages/driver/driver.html";
-
-        }
-
-        else if (actualRole === "admin") {
-
-            window.location.href =
-                "../pages/admin/admin.html";
-
-        }
-
-        else if (actualRole === "superadmin") {
-
-            window.location.href =
-                "../pages/superadmin/superadmin.html";
-
-        }
-
-        else {
-
-            alert(
-                "⚠️ Dashboard for this role is not configured yet."
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-        alert(
-            "❌ " +
-            error.message
-        );
-
-    }
-
-    finally {
-
-        loginButton.disabled = false;
-        loginButton.textContent = "Login";
-
-    }
-
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Rideshare</title>
+    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <h2>Welcome <span>Back</span></h2>
+            <p>Log in to manage your rides and account</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+                <label>Account Role</label>
+                <select id="role">
+                    <option value="rider">Rider</option>
+                    <option value="driver">Driver</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-login">Log In</button>
+        </form>
+        <div class="login-footer">
+            <p>Don't have an account? <a href="register.html">Register here</a></p>
+        </div>
+    </div>
+    <script src="../assets/js/login.js"></script>
+</body>
+</html>

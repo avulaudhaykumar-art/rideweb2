@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Audit Logs - Smart Rideshare SuperAdmin</title>
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2>Smart<span>Rideshare</span></h2>
+        </div>
+        <div class="admin-profile">
+            <img src="../assets/images/profile.jpg" alt="Admin Profile">
+            <div>
+                <h3>Super Admin</h3>
+                <p>System Audit</p>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h2><i class="fa-solid fa-list-check"></i> System Audit & Activity Logs</h2>
+
+        <div class="admin-controls">
+            <input type="text" id="searchLogs" class="search-bar" placeholder="Search activity logs...">
+        </div>
+
+        <div class="data-table-container">
+            <table class="data-table" id="logsTable">
+                <thead>
+                    <tr>
+                        <th>Log ID</th>
+                        <th>Timestamp</th>
+                        <th>User / Actor</th>
+                        <th>Action Performed</th>
+                        <th>IP Address</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LOG-1029</td>
+                        <td>2026-09-09 18:45:10</td>
+                        <td>driver_user_04</td>
+                        <td>RIDE_ACCEPTED</td>
+                        <td>192.168.1.45</td>
+                        <td><span class="badge badge-active">Success</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+</html>

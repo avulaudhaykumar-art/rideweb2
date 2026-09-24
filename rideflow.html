@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RideFlow — Smart Ride Booking</title>
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIINfQ3Ygk6w8yWj8JfY3bVYQ8Q6L2Q6Q6Q="
+    crossorigin=""
+  />
+
+  <style>
+    :root {
+      --accent: #ff5a1f;
+      --accent-2: #ff8a00;
+      --ink: #101828;
+      --muted: #667085;
+      --surface: rgba(255,255,255,.94);
+      --line: #e7e9ee;
+      --success: #12b76a;
+      --danger: #ef4444;
+      --shadow: 0 18px 50px rgba(16,24,40,.16);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #f4f6f8;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    .app {
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: #dfe8d8;
+    }
+
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,.35), transparent 25%),
+        linear-gradient(90deg, rgba(255,255,255,.12), transparent 42%);
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 10;
+      top: 18px;
+      left: 22px;
+      right: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .brand {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.75);
+      box-shadow: var(--shadow);
+      padding: 10px 16px;
+      border-radius: 16px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: white;
+      font-size: 20px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 20px rgba(255,90,31,.3);
+    }
+
+    .brand strong {
+      font-size: 17px;
+      letter-spacing: -.3px;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 1px;
+    }
+
+    .top-actions {
+      pointer-events: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.92);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      font-size: 18px;
+    }
+
+    .booking-panel {
+      position: absolute;
+      z-index: 9;
+      left: 22px;
+      top: 92px;
+      width: min(410px, calc(100vw - 44px));
+      max-height: calc(100vh - 112px);
+      overflow: auto;
+      background: var(--surface);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      scrollbar-width: thin;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+    }
+
+    .heading {
+      margin: 5px 0 3px;
+      font-size: 25px;
+      letter-spacing: -.8px;
+    }
+
+    .subheading {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .location-box {
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 7px 12px;
+      background: #fff;
+    }
+
+    .loc-row {
+      display: grid;
+      grid-template-columns: 24px 1fr 34px;
+      align-items: center;
+      min-height: 54px;
+      gap: 7px;
+    }
+
+    .loc-row + .loc-row {
+      border-top: 1px dashed #dfe3e8;
+    }
+
+    .loc-dot {
+      width: 12px;
+      height: 12px;
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      margin-left: 3px;
+    }
+
+    .loc-dot.drop {
+      border-radius: 3px;
+      border-color: #111827;
+    }
+
+    .loc-input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--ink);
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .loc-input::placeholder {
+      color: #98a2b3;
+    }
+
+    .loc-action {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #f5f7fa;
+      color: var(--accent);
+    }
+
+    .swap {
+      display: flex;
+      justify-content: flex-end;
+      margin: -16px 11px -2px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .swap button {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      color: var(--ink);
+    }
+
+    .section-title {
+      margin: 20px 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .section-title span:last-child {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .vehicles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .vehicle {
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 10px 7px;
+      text-align: center;
+      transition: .2s ease;
+    }
+
+    .vehicle:hover {
+      transform: translateY(-2px);
+    }
+
+    .vehicle.active {
+      border-color: var(--accent);
+      box-shadow: 0 8px 20px rgba(255,90,31,.12);
+      background: linear-gradient(180deg, #fff, #fff8f4);
+    }
+
+    .vehicle-icon {
+      font-size: 27px;
+      margin-bottom: 4px;
+    }
+
+    .vehicle b {
+      display: block;
+      font-size: 12px;
+    }
+
+    .vehicle small {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .estimate {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .estimate-card {
+      border-radius: 15px;
+      background: #f7f8fa;
+      padding: 11px;
+    }
+
+    .estimate-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      margin-bottom: 3px;
+    }
+
+    .estimate-card strong {
+      font-size: 15px;
+    }
+
+    .payment-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .payment {
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 9px 12px;
+      border-radius: 13px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .payment.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #fff8f4;
+    }
+
+    .book-btn {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px 18px;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: 850;
+      font-size: 14px;
+      letter-spacing: .1px;
+      background: linear-gradient(110deg, var(--accent), var(--accent-2), var(--accent));
+      background-size: 200% 100%;
+      animation: buttonGlow 3s linear infinite;
+      box-shadow: 0 12px 28px rgba(255,90,31,.28);
+    }
+
+    @keyframes buttonGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .hint {
+      text-align: center;
+      margin: 9px 0 0;
+      color: #98a2b3;
+      font-size: 10px;
+    }
+
+    .locate {
+      position: absolute;
+      z-index: 8;
+      right: 20px;
+      bottom: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.95);
+      box-shadow: var(--shadow);
+      font-size: 20px;
+    }
+
+    .status-card {
+      position: absolute;
+      z-index: 8;
+      right: 20px;
+      bottom: 84px;
+      width: 280px;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: none;
+    }
+
+    .status-card.show { display: block; }
+
+    .driver-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .driver-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #eef2ff;
+      font-size: 22px;
+    }
+
+    .driver-line strong {
+      font-size: 13px;
+    }
+
+    .driver-line small {
+      display: block;
+      color: var(--muted);
+      margin-top: 2px;
+      font-size: 10px;
+    }
+
+    .status-pill {
+      margin-left: auto;
+      padding: 6px 8px;
+      border-radius: 99px;
+      background: #ecfdf3;
+      color: #027a48;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .progress {
+      height: 5px;
+      background: #eef0f3;
+      border-radius: 99px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress i {
+      display: block;
+      height: 100%;
+      width: 68%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      animation: progressMove 2.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes progressMove {
+      from { width: 48%; }
+      to { width: 88%; }
+    }
+
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15,23,42,.46);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-wrap.show { display: flex; }
+
+    .modal {
+      width: min(390px, 100%);
+      background: white;
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.25);
+      animation: modalIn .25s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(15px) scale(.97); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .modal h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .modal p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .close {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      background: #f2f4f7;
+    }
+
+    .otp {
+      display: flex;
+      gap: 7px;
+      margin: 17px 0;
+    }
+
+    .otp input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid #d9dee7;
+      border-radius: 13px;
+      text-align: center;
+      font-size: 21px;
+      font-weight: 800;
+      outline: none;
+    }
+
+    .otp input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,90,31,.1);
+    }
+
+    .confirm {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      background: var(--ink);
+      color: white;
+      font-weight: 800;
+    }
+
+    .booking-number {
+      padding: 10px 12px;
+      border-radius: 13px;
+      background: #f7f8fa;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 8px !important;
+    }
+
+    @media (max-width: 700px) {
+      body { overflow: hidden; }
+      .topbar {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+      }
+      .booking-panel {
+        left: 10px;
+        right: 10px;
+        top: auto;
+        bottom: 10px;
+        width: auto;
+        max-height: 64vh;
+        border-radius: 22px;
+        padding: 16px;
+      }
+      .locate {
+        right: 12px;
+        bottom: calc(64vh + 22px);
+      }
+      .status-card {
+        right: 10px;
+        left: 10px;
+        bottom: calc(64vh + 22px);
+        width: auto;
+      }
+      .heading { font-size: 21px; }
+      .brand { padding: 8px 12px; }
+      .brand-mark { width: 34px; height: 34px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div id="map"></div>
+  <div class="map-overlay"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">R</div>
+      <div>
+        <strong>RideFlow</strong>
+        <small>Smart city rides</small>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="helpBtn" title="Help">?</button>
+      <button class="icon-btn" id="profileBtn" title="Profile">●</button>
+    </div>
+  </header>
+
+  <main class="booking-panel">
+    <div class="eyebrow">Ride in minutes</div>
+    <h1 class="heading">Where are you going?</h1>
+    <p class="subheading">Choose your pickup and destination to get an instant fare estimate.</p>
+
+    <div class="location-box">
+      <div class="loc-row">
+        <div class="loc-dot"></div>
+        <input id="pickup" class="loc-input" placeholder="Pickup location" autocomplete="off" />
+        <button class="loc-action" id="pickupLocate" title="Use my location">⌖</button>
+      </div>
+
+      <div class="loc-row">
+        <div class="loc-dot drop"></div>
+        <input id="destination" class="loc-input" placeholder="Where to?" autocomplete="off" />
+        <button class="loc-action" id="destinationSearch" title="Find destination">⌕</button>
+      </div>
+    </div>
+
+    <div class="swap">
+      <button id="swapBtn" title="Swap locations">↕</button>
+    </div>
+
+    <div class="section-title">
+      <span>Choose a ride</span>
+      <span id="availability">Nearby now</span>
+    </div>
+
+    <div class="vehicles">
+      <button class="vehicle active" data-type="bike" data-base="35" data-km="8">
+        <div class="vehicle-icon">🏍️</div>
+        <b>Bike</b>
+        <small>1 seat</small>
+      </button>
+      <button class="vehicle" data-type="auto" data-base="50" data-km="11">
+        <div class="vehicle-icon">🛺</div>
+        <b>Auto</b>
+        <small>3 seats</small>
+      </button>
+      <button class="vehicle" data-type="car" data-base="75" data-km="15">
+        <div class="vehicle-icon">🚕</div>
+        <b>Cab</b>
+        <small>4 seats</small>
+      </button>
+    </div>
+
+    <div class="estimate">
+      <div class="estimate-card">
+        <span>Estimated fare</span>
+        <strong id="fare">₹95</strong>
+      </div>
+      <div class="estimate-card">
+        <span>Estimated arrival</span>
+        <strong id="eta">3 min</strong>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>Payment</span>
+      <span>Secure</span>
+    </div>
+
+    <div class="payment-row">
+      <button class="payment active" data-pay="UPI">📱 UPI</button>
+      <button class="payment" data-pay="Cash">💵 Cash</button>
+      <button class="payment" data-pay="Card">💳 Card</button>
+      <button class="payment" data-pay="Wallet">👛 Wallet</button>
+    </div>
+
+    <button class="book-btn" id="bookBtn">Confirm pickup</button>
+    <div class="hint">Frontend demo • Booking/OTP are simulated until a backend is connected.</div>
+  </main>
+
+  <button class="locate" id="locateBtn" title="My location">◎</button>
+
+  <div class="status-card" id="statusCard">
+    <div class="driver-line">
+      <div class="driver-avatar">🚕</div>
+      <div>
+        <strong id="driverName">Finding your driver…</strong>
+        <small id="driverInfo">Matching nearby drivers</small>
+      </div>
+      <div class="status-pill">LIVE</div>
+    </div>
+    <div class="progress"><i></i></div>
+  </div>
+
+  <div class="modal-wrap" id="modalWrap">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Booking created</div>
+          <h2>Verify your ride</h2>
+        </div>
+        <button class="close" id="closeModal">✕</button>
+      </div>
+
+      <p>Enter the demo OTP shown below. In the real backend, this OTP would be generated securely and sent to the rider.</p>
+
+      <div class="booking-number">
+        <span>Booking ID</span>
+        <strong id="bookingId">RF000000</strong>
+      </div>
+
+      <p><b>Demo OTP: <span id="demoOtp">----</span></b></p>
+
+      <div class="otp" id="otpBox">
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+      </div>
+
+      <button class="confirm" id="verifyBtn">Verify & start ride</button>
+    </div>
+  </div>
+</div>
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin="">
+</script>
+
+<script>
+  // -----------------------------
+  // RideFlow FRONTEND DEMO
+  // -----------------------------
+
+  const map = L.map("map", {
+    zoomControl: false,
+    preferCanvas: true
+  }).setView([17.3850, 78.4867], 13); // Hyderabad default
+
+  L.control.zoom({ position: "bottomright" }).addTo(map);
+
+  // OpenStreetMap tiles displayed through Leaflet.
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  let pickupMarker = null;
+  let destinationMarker = null;
+  let routeLine = null;
+  let currentLocation = null;
+
+  const pickup = document.getElementById("pickup");
+  const destination = document.getElementById("destination");
+  const fareEl = document.getElementById("fare");
+  const etaEl = document.getElementById("eta");
+  const statusCard = document.getElementById("statusCard");
+  const modalWrap = document.getElementById("modalWrap");
+
+  let selectedVehicle = {
+    type: "bike",
+    base: 35,
+    km: 8
+  };
+
+  let selectedPayment = "UPI";
+
+  function setMarker(which, latlng, label) {
+    const icon = L.divIcon({
+      className: "",
+      html: `<div style="
+        width:18px;height:18px;border-radius:${which === "pickup" ? "50%" : "5px"};
+        background:${which === "pickup" ? "var(--accent)" : "#111827"};
+        border:4px solid white;
+        box-shadow:0 3px 12px rgba(0,0,0,.25)
+      "></div>`,
+      iconSize: [18,18],
+      iconAnchor: [9,9]
+    });
+
+    const marker = L.marker(latlng, { icon }).addTo(map).bindPopup(label);
+
+    if (which === "pickup") {
+      if (pickupMarker) map.removeLayer(pickupMarker);
+      pickupMarker = marker;
+    } else {
+      if (destinationMarker) map.removeLayer(destinationMarker);
+      destinationMarker = marker;
+    }
+    return marker;
+  }
+
+  function straightLineRoute(a, b) {
+    if (routeLine) map.removeLayer(routeLine);
+
+    routeLine = L.polyline([a, b], {
+      color: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#ff5a1f",
+      weight: 6,
+      opacity: .82,
+      dashArray: "1 0"
+    }).addTo(map);
+
+    map.fitBounds(routeLine.getBounds(), {
+      paddingTopLeft: [430, 100],
+      paddingBottomRight: [80, 100]
+    });
+
+    const km = map.distance(a, b) / 1000;
+    updateEstimate(km);
+  }
+
+  function updateEstimate(km = 8) {
+    const fare = Math.max(
+      selectedVehicle.base,
+      Math.round(selectedVehicle.base + km * selectedVehicle.km)
+    );
+
+    const eta = Math.max(3, Math.round(km * 2.1 + 2));
+
+    fareEl.textContent = `₹${fare}`;
+    etaEl.textContent = `${eta} min`;
+  }
+
+  function setPickup(latlng, text = "Current location") {
+    currentLocation = latlng;
+    pickup.value = text;
+    setMarker("pickup", latlng, "Pickup");
+    map.setView(latlng, 15);
+    if (destinationMarker) {
+      straightLineRoute(latlng, destinationMarker.getLatLng());
+    }
+  }
+
+  function setDestination(latlng, text) {
+    destination.value = text;
+    setMarker("destination", latlng, "Destination");
+
+    if (pickupMarker) {
+      straightLineRoute(pickupMarker.getLatLng(), latlng);
+    } else {
+      map.setView(latlng, 14);
+    }
+  }
+
+  // Try browser geolocation on load. If unavailable, use Hyderabad center.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => setPickup([pos.coords.latitude, pos.coords.longitude], "My current location"),
+      () => setPickup([17.3850, 78.4867], "Hyderabad")
+    );
+  } else {
+    setPickup([17.3850, 78.4867], "Hyderabad");
+  }
+
+  document.getElementById("locateBtn").addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      alert("Location is not available in this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => setPickup([pos.coords.latitude, pos.coords.longitude], "My current location"),
+      () => alert("Please allow location access in your browser.")
+    );
+  });
+
+  document.getElementById("pickupLocate").addEventListener("click", () => {
+    document.getElementById("locateBtn").click();
+  });
+
+  document.getElementById("swapBtn").addEventListener("click", () => {
+    const a = pickup.value;
+    pickup.value = destination.value;
+    destination.value = a;
+
+    if (pickupMarker && destinationMarker) {
+      const p = pickupMarker.getLatLng();
+      const d = destinationMarker.getLatLng();
+      setMarker("pickup", d, "Pickup");
+      setMarker("destination", p, "Destination");
+      straightLineRoute(d, p);
+    }
+  });
+
+  // Vehicle selection
+  document.querySelectorAll(".vehicle").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".vehicle").forEach(v => v.classList.remove("active"));
+      btn.classList.add("active");
+
+      selectedVehicle = {
+        type: btn.dataset.type,
+        base: Number(btn.dataset.base),
+        km: Number(btn.dataset.km)
+      };
+
+      const km = pickupMarker && destinationMarker
+        ? map.distance(pickupMarker.getLatLng(), destinationMarker.getLatLng()) / 1000
+        : 8;
+
+      updateEstimate(km);
+    });
+  });
+
+  // Payment selection
+  document.querySelectorAll(".payment").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".payment").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      selectedPayment = btn.dataset.pay;
+    });
+  });
+
+  // Simple geocoding using Nominatim.
+  // For a production application, use a proper geocoding provider/API key
+  // and respect that provider's usage policy.
+  async function geocode(query) {
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`;
+    const response = await fetch(url, {
+      headers: { "Accept": "application/json" }
+    });
+
+    if (!response.ok) throw new Error("Geocoding failed");
+    const data = await response.json();
+    if (!data.length) throw new Error("Location not found");
+
+    return {
+      lat: Number(data[0].lat),
+      lon: Number(data[0].lon),
+      name: data[0].display_name
+    };
+  }
+
+  document.getElementById("destinationSearch").addEventListener("click", async () => {
+    const query = destination.value.trim();
+
+    if (!query) {
+      destination.focus();
+      return;
+    }
+
+    const old = destination.value;
+    destination.value = "Searching…";
+
+    try {
+      const result = await geocode(query);
+      setDestination([result.lat, result.lon], result.name.split(",").slice(0, 3).join(","));
+    } catch (err) {
+      destination.value = old;
+      alert("Destination not found. Try a more specific place name.");
+    }
+  });
+
+  destination.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      document.getElementById("destinationSearch").click();
+    }
+  });
+
+  // Map click: convenient frontend demo for choosing destination.
+  map.on("click", e => {
+    if (e.originalEvent.target.closest(".leaflet-control")) return;
+    setDestination([e.latlng.lat, e.latlng.lng], "Map-selected destination");
+  });
+
+  // Booking + demo OTP
+  let activeOtp = "";
+
+  document.getElementById("bookBtn").addEventListener("click", () => {
+    if (!pickupMarker) {
+      alert("Please choose a pickup location.");
+      return;
+    }
+
+    if (!destinationMarker) {
+      alert("Please enter a destination or click a destination on the map.");
+      destination.focus();
+      return;
+    }
+
+    activeOtp = String(Math.floor(1000 + Math.random() * 9000));
+
+    const bookingId = "RF" + Date.now().toString().slice(-8);
+
+    document.getElementById("bookingId").textContent = bookingId;
+    document.getElementById("demoOtp").textContent = activeOtp;
+    document.getElementById("otpBox").querySelectorAll("input").forEach(i => i.value = "");
+
+    modalWrap.classList.add("show");
+  });
+
+  document.getElementById("closeModal").addEventListener("click", () => {
+    modalWrap.classList.remove("show");
+  });
+
+  document.querySelectorAll("#otpBox input").forEach((input, index, all) => {
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "").slice(0, 1);
+      if (input.value && all[index + 1]) all[index + 1].focus();
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !input.value && all[index - 1]) {
+        all[index - 1].focus();
+      }
+    });
+  });
+
+  document.getElementById("verifyBtn").addEventListener("click", () => {
+    const entered = [...document.querySelectorAll("#otpBox input")]
+      .map(i => i.value)
+      .join("");
+
+    if (entered !== activeOtp) {
+      alert("Incorrect OTP. Use the demo OTP displayed in the booking window.");
+      return;
+    }
+
+    modalWrap.classList.remove("show");
+    statusCard.classList.add("show");
+
+    document.getElementById("driverName").textContent = "Rahul • RideFlow Driver";
+    document.getElementById("driverInfo").textContent = `Arriving in ${etaEl.textContent} • ${selectedVehicle.type.toUpperCase()} • ${selectedPayment}`;
+
+    // Simulated driver marker.
+    if (pickupMarker) {
+      const p = pickupMarker.getLatLng();
+      const driverPoint = [p.lat + 0.006, p.lng - 0.005];
+
+      const driverIcon = L.divIcon({
+        className: "",
+        html: `<div style="
+          width:38px;height:38px;border-radius:50%;
+          background:white;border:3px solid var(--accent);
+          display:grid;place-items:center;
+          box-shadow:0 6px 20px rgba(0,0,0,.2);
+          font-size:20px
+        ">🚕</div>`,
+        iconSize: [38,38],
+        iconAnchor: [19,19]
+      });
+
+      L.marker(driverPoint, { icon: driverIcon })
+        .addTo(map)
+        .bindPopup("Your driver");
+
+      map.setView(p, 15);
+    }
+  });
+
+  document.getElementById("helpBtn").addEventListener("click", () => {
+    alert("RideFlow demo: choose pickup, destination, vehicle and payment, then confirm your booking.");
+  });
+
+  document.getElementById("profileBtn").addEventListener("click", () => {
+    alert("Profile screen will be connected to the backend later.");
+  });
+
+  // Automatic accent-color animation.
+  // This is purely visual and can be removed if a fixed brand color is preferred.
+  const themes = [
+    ["#ff5a1f", "#ff8a00"],
+    ["#7c3aed", "#a855f7"],
+    ["#2563eb", "#06b6d4"],
+    ["#059669", "#22c55e"]
+  ];
+
+  let themeIndex = 0;
+  setInterval(() => {
+    themeIndex = (themeIndex + 1) % themes.length;
+    document.documentElement.style.setProperty("--accent", themes[themeIndex][0]);
+    document.documentElement.style.setProperty("--accent-2", themes[themeIndex][1]);
+
+    if (routeLine) {
+      routeLine.setStyle({ color: themes[themeIndex][0] });
+    }
+  }, 4500);
+</script>
+</body>
+</html>
